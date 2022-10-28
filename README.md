@@ -15,6 +15,10 @@ The following operations are pending:
 * Create User
 * Login User
 
+### Schematics
+
+The planning of the project can be checked on [Diagrams.net](https://app.diagrams.net) opening the file [schematics.drawio.xml](docs/schematics.drawio.xml).
+
 ### Prerequisites
 
 * php (v8.1)
