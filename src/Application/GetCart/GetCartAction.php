@@ -9,6 +9,7 @@ use App\Domain\Repository\CreateCartRepository;
 use App\Domain\Repository\GetCartRepository;
 use App\Domain\Repository\SessionRepository;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Uid\UuidV4;
 
 class GetCartAction
 {
@@ -21,6 +22,10 @@ class GetCartAction
     public function __invoke(): Cart
     {
         $sessionCartId = $this->sessionRepository->get(SessionKey::Cart);
+
+        if ($sessionCartId != null) {
+            $sessionCartId = UuidV4::fromString($sessionCartId);
+        }
 
         $sessionCart = $this->tryToGetCart($sessionCartId);
 
@@ -35,7 +40,7 @@ class GetCartAction
         return $cart;
     }
 
-    private function tryToGetCart(string $id): ?Cart
+    private function tryToGetCart(UuidV4 $id): ?Cart
     {
         try {
             return $this->getCartRepository->getCart($id);
