@@ -17,7 +17,13 @@ The following operations are pending:
 
 ### Schematics
 
-The planning of the project can be checked on [Diagrams.net](https://app.diagrams.net) opening the file [schematics.drawio.xml](docs/schematics.drawio.xml).
+The details of how the application works are provided in the [schematics](docs/schematics) folder.
+All these can be opened on [Diagrams.net](https://diagrams.net). 
+
+Here is a list of the available schemas: 
+
+* [Actions](/docs/schematics/actions.drawio.xml): Detailed explanation of the actions that can be done on the system
+* [Endpoints](/docs/schematics/endpoints.drawio.xml): Detailed explanation of how the actions are used to represent the API behaviour 
 
 ### Prerequisites
 
