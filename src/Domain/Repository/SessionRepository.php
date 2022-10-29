@@ -8,5 +8,5 @@ interface SessionRepository
 {
     public function set(SessionKey $key, mixed $value): void;
 
-    public function get(SessionKey $key, mixed $default): mixed;
+    public function get(SessionKey $key, mixed $default = null): mixed;
 }
