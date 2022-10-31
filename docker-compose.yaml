@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mysql:
+    image: 'mysql/mysql-server:8.0'
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:${DB_PORT}'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_PORT: '${DB_PORT}'
+    volumes:
+      - 'mysql:/var/lib/mysql'
+    networks:
+      - cart-api
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+      retries: 3
+      timeout: 5s
+networks:
+  cart-api:
+    driver: bridge
+volumes:
+  mysql:
+    driver: local
