@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Domain\Model\Cart" table="carts">
+        <id name="id" column="id" type="uuid">
+            <generator strategy="NONE"/>
+        </id>
+        <one-to-many field="items" target-entity="CartItem" mapped-by="cart" />
+        <field name="status"/>
+    </entity>
+</doctrine-mapping>
