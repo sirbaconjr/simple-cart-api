@@ -1,0 +1,124 @@
+openapi: 3.0.0
+info:
+  description: "This is a simple cart api"
+  version: 1.0.0
+  title: Cart API
+  license:
+    name: MIT
+tags:
+  - name: cart
+    description: Everything about carts
+paths:
+  /cart:
+    get:
+      tags:
+        - cart
+      summary: Get the current cart
+      description: >
+        Get the cart, if a cart already exist in the session,
+        then this cart will be returned
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    post:
+      tags:
+        - cart
+      summary: Add items to the current cart
+      description: >
+        Add the items sent in the body to the current cart
+      requestBody:
+        description: List of items and amounts to be added to the cart
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayOfCartItems'
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "400":
+          description: Cart already bought exception
+    patch:
+      tags:
+        - cart
+      summary: Update the cart status
+      description: >
+        Update the current cart status. A cart status cannot be moved to `new` once it becomes `bought`.
+      requestBody:
+        description: Status to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  $ref: '#/components/schemas/CartStatus'
+              example:
+                status: bought
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+servers:
+  - url: http://localhost:8080/api/v1
+components:
+  schemas:
+    CartStatus:
+      type: string
+      description: The current status of the cart
+      enum:
+        - new
+        - bought
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A valid UUID V4 string
+        status:
+          $ref: '#/components/schemas/CartStatus'
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A valid UUID V4 string
+        name:
+          type: string
+          example: Fox plushie
+        description:
+          type: string
+          example: A fox plushie made of yarn, non-allergenic.
+        price:
+          type: number
+          format: float
+          example: 42.78
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The id of a existing product
+        amount:
+          type: integer
+          format: int64
+          minimum: 1
+    ArrayOfCartItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/CartItem'
