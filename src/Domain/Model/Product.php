@@ -14,8 +14,8 @@ class Product
      */
     public function __construct(
         public readonly UuidV4 $id,
-        public readonly string $name,
-        public readonly string $description,
-        public readonly float $price
+        public string $name,
+        public string $description,
+        public float $price
     ) {}
 }

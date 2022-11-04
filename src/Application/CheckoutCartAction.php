@@ -25,7 +25,9 @@ class CheckoutCartAction
     {
         CartValidator::isEmpty($cart);
 
-        $this->updateCartStatusRepository->update($cart, CartStatus::Bought);
+        $cart->status = CartStatus::Bought;
+
+        $this->updateCartStatusRepository->update($cart);
 
         return $cart;
     }

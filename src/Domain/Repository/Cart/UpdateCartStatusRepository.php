@@ -9,8 +9,7 @@ interface UpdateCartStatusRepository
 {
     /**
      * @param Cart $cart
-     * @param CartStatus $status
      * @return void
      */
-    public function update(Cart $cart, CartStatus $status): void;
+    public function update(Cart $cart): void;
 }

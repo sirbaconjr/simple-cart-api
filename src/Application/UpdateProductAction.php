@@ -20,8 +20,10 @@ class UpdateProductAction
     {
         $product = $this->getProductRepository->getProduct($id);
 
-        $updatedProduct = new Product($product->id, $name, $description, $price);
+        $product->name = $name;
+        $product->description = $description;
+        $product->price = $price;
 
-        $this->updateProductRepository->update($updatedProduct);
+        $this->updateProductRepository->update($product);
     }
 }

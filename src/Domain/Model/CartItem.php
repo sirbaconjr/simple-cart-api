@@ -11,7 +11,7 @@ class CartItem
      */
     public function __construct(
         public readonly Cart $cart,
-        public readonly Product $product,
-        public readonly int $amount
+        public Product $product,
+        public int $amount
     ) {}
 }

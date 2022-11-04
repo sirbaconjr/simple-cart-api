@@ -13,14 +13,8 @@ class DoctrineUpdateCartStatusRepository implements UpdateCartStatusRepository
         private readonly EntityManager $entityManager
     ) {}
 
-    public function update(Cart $cart, CartStatus $status): void
+    public function update(Cart $cart): void
     {
-        $this->entityManager->getRepository(Cart::class)
-            ->createQueryBuilder('c')
-            ->update('c.status', $status)
-            ->getQuery()
-            ->execute();
-
-        $this->entityManager->clear(Cart::class);
+        $this->entityManager->flush();
     }
 }

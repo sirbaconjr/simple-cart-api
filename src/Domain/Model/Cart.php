@@ -9,12 +9,12 @@ class Cart
 {
     /**
      * @param UuidV4 $id
-     * @param array $items
+     * @param CartItem[] $items
      * @param CartStatus $status
      */
     public function __construct(
         public readonly UuidV4 $id,
-        public readonly array $items,
-        public readonly CartStatus $status
+        public iterable $items,
+        public CartStatus $status
     ) {}
 }

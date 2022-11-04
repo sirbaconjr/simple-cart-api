@@ -21,12 +21,12 @@ class DoctrineUpdateProductRepositoryTest extends AppTestCase
         $product = new Product(UuidV4::v4(), "Name", "Description", 42.78);
         $createProductRepository->createProduct($product);
 
-        $updatedProduct = new Product($product->id, "Another Name", "Another Description", 78.42);
+        $product->name = "New Name";
 
-        $updateProductRepository->update($updatedProduct);
+        $updateProductRepository->update($product);
 
         $foundProduct = $getProductRepository->getProduct($product->id);
 
-        self::assertEquals($updatedProduct, $foundProduct);
+        self::assertEquals($product, $foundProduct);
     }
 }

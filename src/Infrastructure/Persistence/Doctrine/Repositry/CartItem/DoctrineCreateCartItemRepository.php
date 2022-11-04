@@ -14,7 +14,8 @@ class DoctrineCreateCartItemRepository implements CreateCartItemRepository
 
     public function create(CartItem $cartItem): void
     {
+        $cartItem->cart->items[] = $cartItem;
         $this->entityManager->persist($cartItem);
-        $this->entityManager->flush();;
+        $this->entityManager->flush();
     }
 }
