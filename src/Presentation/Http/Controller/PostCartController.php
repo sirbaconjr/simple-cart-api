@@ -2,8 +2,8 @@
 
 namespace App\Presentation\Http\Controller;
 
-use App\Application\AddProductToCart\AddProductToCartAction;
-use App\Application\GetCart\GetCartAction;
+use App\Application\AddProductToCartAction;
+use App\Application\GetCartAction;
 use App\Domain\Exception\CartAlreadyBoughtException;
 use App\Domain\Exception\InvalidAmountException;
 use App\Domain\Exception\ProductNotFound;

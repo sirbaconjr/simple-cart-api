@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Http\Controller;
 
-use App\Application\GetCart\GetCartAction;
+use App\Application\GetCartAction;
 use App\Presentation\Http\Response\GetCartResponse;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;

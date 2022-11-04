@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\AddProductToCart;
+namespace App\Application;
 
 use App\Domain\Exception\CartAlreadyBoughtException;
 use App\Domain\Exception\InvalidAmountException;

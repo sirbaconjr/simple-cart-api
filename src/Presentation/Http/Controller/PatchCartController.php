@@ -2,8 +2,8 @@
 
 namespace App\Presentation\Http\Controller;
 
-use App\Application\CheckoutCart\CheckoutCartAction;
-use App\Application\GetCart\GetCartAction;
+use App\Application\CheckoutCartAction;
+use App\Application\GetCartAction;
 use App\Domain\Enum\CartStatus;
 use App\Presentation\Http\Request\PatchCartRequest;
 use App\Presentation\Http\Response\PatchCartResponse;

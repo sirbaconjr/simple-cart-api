@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\GetCart;
+namespace App\Application;
 
 use App\Domain\Enum\CartStatus;
 use App\Domain\Exception\CartNotFound;
