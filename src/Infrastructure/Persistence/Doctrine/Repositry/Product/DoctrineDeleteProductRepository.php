@@ -18,17 +18,15 @@ class DoctrineDeleteProductRepository implements DeleteProductRepository
     {
         $repo = $this->entityManager->getRepository(Product::class);
 
-        $productExists = $repo->find($id) != null;
+        $product = $repo->find($id);
 
-        if (!$productExists) {
+        if (!$product) {
             throw new ProductNotFound($id);
         }
 
-        $repo
-            ->createQueryBuilder('p')
-            ->delete()
-            ->where('p.id', $id)
-            ->getQuery()
-            ->execute();
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
+
+        $this->entityManager->clear(Product::class);
     }
 }

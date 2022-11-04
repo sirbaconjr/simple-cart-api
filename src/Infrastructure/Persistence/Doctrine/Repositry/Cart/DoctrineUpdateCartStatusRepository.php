@@ -20,5 +20,7 @@ class DoctrineUpdateCartStatusRepository implements UpdateCartStatusRepository
             ->update('c.status', $status)
             ->getQuery()
             ->execute();
+
+        $this->entityManager->clear(Cart::class);
     }
 }

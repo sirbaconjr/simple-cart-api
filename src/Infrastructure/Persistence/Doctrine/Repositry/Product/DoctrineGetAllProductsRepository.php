@@ -16,6 +16,6 @@ class DoctrineGetAllProductsRepository implements GetAllProductsRepository
     {
         return $this->entityManager
             ->getRepository(Product::class)
-            ->findAll();
+            ->findBy([], ['name' => 'ASC']);
     }
 }
