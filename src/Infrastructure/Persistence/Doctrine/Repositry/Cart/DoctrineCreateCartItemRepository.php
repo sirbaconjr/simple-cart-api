@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Doctrine;
+namespace App\Infrastructure\Persistence\Doctrine\Repositry\Cart;
 
 use App\Domain\Model\CartItem;
 use App\Domain\Repository\CreateCartItemRepository;

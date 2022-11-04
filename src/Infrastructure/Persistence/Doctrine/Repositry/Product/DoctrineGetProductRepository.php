@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Doctrine;
+namespace App\Infrastructure\Persistence\Doctrine\Repositry\Product;
 
 use App\Domain\Exception\ProductNotFound;
 use App\Domain\Model\Product;
