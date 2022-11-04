@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Presentation\Http\Request;
+namespace App\Presentation\Http\Request\Cart;
 
 use App\Domain\Enum\CartStatus;
+use App\Presentation\Http\Request\Request;
 
 class PatchCartRequest extends Request
 {

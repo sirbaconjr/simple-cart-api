@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Presentation\Http\Request;
+namespace App\Presentation\Http\Request\Cart;
 
+use App\Presentation\Http\Request\Request;
 use Symfony\Component\Uid\UuidV4;
 
 class PostCartRequest extends Request

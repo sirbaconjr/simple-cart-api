@@ -1,8 +1,8 @@
 <?php
 
-use App\Presentation\Http\Controller\GetCartController;
-use App\Presentation\Http\Controller\PatchCartController;
-use App\Presentation\Http\Controller\PostCartController;
+use App\Presentation\Http\Controller\Cart\GetCartController;
+use App\Presentation\Http\Controller\Cart\PatchCartController;
+use App\Presentation\Http\Controller\Cart\PostCartController;
 use App\Presentation\Http\Middleware\JsonBodyParserMiddleware;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;

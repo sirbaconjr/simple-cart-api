@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Presentation\Http\Controller;
+namespace App\Presentation\Http\Controller\Cart;
 
 use App\Application\AddProductToCartAction;
 use App\Application\GetCartAction;
 use App\Domain\Exception\CartAlreadyBoughtException;
 use App\Domain\Exception\InvalidAmountException;
 use App\Domain\Exception\ProductNotFound;
-use App\Presentation\Http\Request\PostCartRequest;
-use App\Presentation\Http\Response\PostCartResponse;
+use App\Presentation\Http\Request\Cart\PostCartRequest;
+use App\Presentation\Http\Response\Cart\PostCartResponse;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 

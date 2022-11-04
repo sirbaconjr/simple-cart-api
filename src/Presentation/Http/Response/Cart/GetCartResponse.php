@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Presentation\Http\Response;
+namespace App\Presentation\Http\Response\Cart;
 
 use App\Domain\Model\Cart;
+use App\Presentation\Http\Response\Response;
 
 class GetCartResponse extends Response
 {

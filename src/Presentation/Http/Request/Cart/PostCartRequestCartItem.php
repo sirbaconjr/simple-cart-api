@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presentation\Http\Request;
+namespace App\Presentation\Http\Request\Cart;
 
 use Symfony\Component\Uid\UuidV4;
 

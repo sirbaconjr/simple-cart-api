@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Presentation\Http\Controller;
+namespace App\Presentation\Http\Controller\Cart;
 
 use App\Application\CheckoutCartAction;
 use App\Application\GetCartAction;
 use App\Domain\Enum\CartStatus;
-use App\Presentation\Http\Request\PatchCartRequest;
-use App\Presentation\Http\Response\PatchCartResponse;
+use App\Presentation\Http\Request\Cart\PatchCartRequest;
+use App\Presentation\Http\Response\Cart\PatchCartResponse;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
