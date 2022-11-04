@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Persistence;
 
 use App\Domain\Helper\SessionKey;
-use App\Domain\Repository\SessionRepository;
+use App\Domain\Repository\Session\SessionRepository;
 
 class PHPSessionRepository implements SessionRepository
 {

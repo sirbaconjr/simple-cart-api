@@ -2,12 +2,13 @@
 
 namespace App\Application\GetCart;
 
+use App\Domain\Enum\CartStatus;
 use App\Domain\Exception\CartNotFound;
 use App\Domain\Helper\SessionKey;
 use App\Domain\Model\Cart;
-use App\Domain\Repository\CreateCartRepository;
-use App\Domain\Repository\GetCartRepository;
-use App\Domain\Repository\SessionRepository;
+use App\Domain\Repository\Cart\CreateCartRepository;
+use App\Domain\Repository\Cart\GetCartRepository;
+use App\Domain\Repository\Session\SessionRepository;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 
@@ -61,7 +62,8 @@ class GetCartAction
     {
         return new Cart(
             Uuid::v4(),
-            []
+            [],
+            CartStatus::New,
         );
     }
 }

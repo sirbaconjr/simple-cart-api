@@ -5,7 +5,7 @@ namespace App\Application\CheckoutCart;
 use App\Domain\Enum\CartStatus;
 use App\Domain\Exception\EmptyCartException;
 use App\Domain\Model\Cart;
-use App\Domain\Repository\UpdateCartStatusRepository;
+use App\Domain\Repository\Cart\UpdateCartStatusRepository;
 use App\Domain\Validator\CartValidator;
 
 class CheckoutCartAction

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Repository;
+namespace App\Domain\Repository\Product;
 
 use App\Domain\Exception\ProductNotFound;
 use App\Domain\Model\Product;

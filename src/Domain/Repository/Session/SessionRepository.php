@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Repository;
+namespace App\Domain\Repository\Session;
 
 use App\Domain\Helper\SessionKey;
 

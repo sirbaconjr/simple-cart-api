@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\Doctrine\Repositry\Product;
 
 use App\Domain\Exception\ProductNotFound;
 use App\Domain\Model\Product;
-use App\Domain\Repository\GetProductRepository;
+use App\Domain\Repository\Product\GetProductRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Uid\UuidV4;
 

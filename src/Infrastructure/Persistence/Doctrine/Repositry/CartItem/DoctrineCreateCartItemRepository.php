@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Doctrine\Repositry\Cart;
+namespace App\Infrastructure\Persistence\Doctrine\Repositry\CartItem;
 
 use App\Domain\Model\CartItem;
-use App\Domain\Repository\CreateCartItemRepository;
+use App\Domain\Repository\CartItem\CreateCartItemRepository;
 use Doctrine\ORM\EntityManager;
 
 class DoctrineCreateCartItemRepository implements CreateCartItemRepository

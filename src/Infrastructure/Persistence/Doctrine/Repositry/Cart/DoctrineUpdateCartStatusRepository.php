@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\Doctrine\Repositry\Cart;
 
 use App\Domain\Enum\CartStatus;
 use App\Domain\Model\Cart;
-use App\Domain\Repository\UpdateCartStatusRepository;
+use App\Domain\Repository\Cart\UpdateCartStatusRepository;
 use Doctrine\ORM\EntityManager;
 
 class DoctrineUpdateCartStatusRepository implements UpdateCartStatusRepository

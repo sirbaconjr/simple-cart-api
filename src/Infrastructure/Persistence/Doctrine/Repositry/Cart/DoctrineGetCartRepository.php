@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\Doctrine\Repositry\Cart;
 
 use App\Domain\Exception\CartNotFound;
 use App\Domain\Model\Cart;
-use App\Domain\Repository\GetCartRepository;
+use App\Domain\Repository\Cart\GetCartRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Uid\UuidV4;
 
