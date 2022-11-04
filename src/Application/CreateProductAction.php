@@ -14,10 +14,12 @@ class CreateProductAction
     {
     }
 
-    public function __invoke(string $name, string $description, float $price): void
+    public function __invoke(string $name, string $description, float $price): Product
     {
         $product = new Product(UuidV4::v4(), $name, $description, $price);
 
         $this->createProductRepository->createProduct($product);
+
+        return $product;
     }
 }
