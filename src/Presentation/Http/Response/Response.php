@@ -2,16 +2,16 @@
 
 namespace App\Presentation\Http\Response;
 
-use Slim\Psr7\Response as SlimResponse;
+use Psr\Http\Message\ResponseInterface;
 
 abstract class Response
 {
     /**
      * @var array<string, string>
      */
-    protected array $errors;
+    protected array $errors = [];
 
-    public function build(SlimResponse $response): SlimResponse
+    public function build(ResponseInterface $response): ResponseInterface
     {
         $response->getBody()
             ->write(json_encode([

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Doctrine\Repositry\Cart;
+namespace App\Infrastructure\Persistence\Doctrine\Repository\Cart;
 
 use App\Domain\Exception\CartNotFound;
 use App\Domain\Model\Cart;

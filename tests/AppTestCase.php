@@ -4,22 +4,21 @@ namespace Tests;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use PHPUnit\Framework\TestCase;
+use Selective\TestTrait\Traits\ContainerTestTrait;
 use Slim\App;
-use Slim\Psr7\Factory\StreamFactory;
-use Slim\Psr7\Headers;
-use Slim\Psr7\Request as SlimRequest;
-use Slim\Psr7\Uri;
 
 class AppTestCase extends TestCase
 {
+    use ContainerTestTrait;
+
     protected App $app;
 
     protected function setUp(): void
     {
         $this->app = $this->getAppInstance();
-
-        $em = $this->container(EntityManager::class);
+        $this->setUpContainer($this->app->getContainer());
+        $em = $this->getService(EntityManager::class);
         $schemaTool = new SchemaTool($em);
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
         $schemaTool->updateSchema($metadatas, true);
@@ -32,8 +31,16 @@ class AppTestCase extends TestCase
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    protected function container(string $service): mixed
+    protected function getService(string $service): mixed
     {
         return $this->app->getContainer()->get($service);
+    }
+
+    /**
+     * @return App
+     */
+    protected function getAppInstance(): App
+    {
+        return require __DIR__ . '/../app/app.php';
     }
 }

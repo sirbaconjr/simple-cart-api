@@ -5,8 +5,6 @@ use Slim\Handlers\Strategies\RequestResponseArgs;
 
 $container = require __DIR__ . '/container.php';
 
-$ENV = $_ENV['ENV'] ?? 'dev';
-
 AppFactory::setContainer($container);
 
 $app = AppFactory::create();
@@ -18,7 +16,7 @@ $routeCollector->setDefaultInvocationStrategy(new RequestResponseArgs());
 $routes = require __DIR__ . '/routes.php';
 $routes($app);
 
-$displayErrorDetails = $ENV == 'dev';
+$displayErrorDetails = $container->get('environment') != 'prod';
 $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, true, true);
 
 // Error Handler

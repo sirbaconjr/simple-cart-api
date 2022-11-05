@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Doctrine\Repositry\Product;
+namespace App\Infrastructure\Persistence\Doctrine\Repository\Product;
 
 use App\Domain\Model\Product;
 use App\Domain\Repository\Product\UpdateProductRepository;

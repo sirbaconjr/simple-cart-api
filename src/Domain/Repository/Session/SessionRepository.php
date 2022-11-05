@@ -6,6 +6,8 @@ use App\Domain\Enum\SessionKey;
 
 interface SessionRepository
 {
+    public function start(): void;
+
     public function set(SessionKey $key, mixed $value): void;
 
     public function get(SessionKey $key, mixed $default = null): mixed;

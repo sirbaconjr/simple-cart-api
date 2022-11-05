@@ -15,7 +15,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "symfony/var-dumper": "^6.1"
+        "symfony/var-dumper": "^6.1",
+        "selective/test-traits": "^2.2"
     },
     "scripts": {
         "start": "php -S localhost:8080 -t public",

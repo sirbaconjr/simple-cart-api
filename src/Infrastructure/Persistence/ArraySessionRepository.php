@@ -5,26 +5,27 @@ namespace App\Infrastructure\Persistence;
 use App\Domain\Enum\SessionKey;
 use App\Domain\Repository\Session\SessionRepository;
 
-class PHPSessionRepository implements SessionRepository
+class ArraySessionRepository implements SessionRepository
 {
+    private array $items = [];
     private bool $started = false;
 
     public function start(): void
     {
-        session_start();
+        $this->items = [];
         $this->started = true;
     }
 
     public function set(SessionKey $key, mixed $value): void
     {
         $this->startIfNeeded();
-        $_SESSION[$key->value] = $value;
+        $this->items[$key->value] = $value;
     }
 
     public function get(SessionKey $key, mixed $default = null): mixed
     {
         $this->startIfNeeded();
-        return $_SESSION[$key->value] ?? $default;
+        return $this->items[$key->value] ?? $default;
     }
 
     private function startIfNeeded()

@@ -4,8 +4,8 @@ namespace App\Presentation\Http\Controller\Cart;
 
 use App\Application\GetCartAction;
 use App\Presentation\Http\Response\Cart\GetCartResponse;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class GetCartController
 {
@@ -15,7 +15,7 @@ class GetCartController
     {
     }
 
-    public function __invoke(Request $request, Response $response): Response
+    public function __invoke(RequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $cart = ($this->getCartAction)();
 

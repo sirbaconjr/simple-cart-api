@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Doctrine\Repositry\Cart;
+namespace App\Infrastructure\Persistence\Doctrine\Repository\Cart;
 
 use App\Domain\Model\Cart;
+use App\Domain\Repository\Cart\CreateCartRepository;
 use Doctrine\ORM\EntityManager;
 
-class DoctrineCreateCartRepository implements \App\Domain\Repository\Cart\CreateCartRepository
+class DoctrineCreateCartRepository implements CreateCartRepository
 {
     public function __construct(
         private readonly EntityManager $entityManager

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Doctrine\Repositry\Cart;
+namespace App\Infrastructure\Persistence\Doctrine\Repository\Cart;
 
-use App\Domain\Enum\CartStatus;
 use App\Domain\Model\Cart;
 use App\Domain\Repository\Cart\UpdateCartStatusRepository;
 use Doctrine\ORM\EntityManager;
