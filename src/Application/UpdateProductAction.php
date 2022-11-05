@@ -2,7 +2,6 @@
 
 namespace App\Application;
 
-use App\Domain\Model\Product;
 use App\Domain\Repository\Product\GetProductRepository;
 use App\Domain\Repository\Product\UpdateProductRepository;
 use Symfony\Component\Uid\UuidV4;

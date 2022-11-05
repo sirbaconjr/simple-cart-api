@@ -2,7 +2,7 @@
 
 namespace App\Domain\Repository\Session;
 
-use App\Domain\Helper\SessionKey;
+use App\Domain\Enum\SessionKey;
 
 interface SessionRepository
 {

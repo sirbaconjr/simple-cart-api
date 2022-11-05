@@ -3,8 +3,8 @@
 namespace App\Application;
 
 use App\Domain\Enum\CartStatus;
+use App\Domain\Enum\SessionKey;
 use App\Domain\Exception\CartNotFound;
-use App\Domain\Helper\SessionKey;
 use App\Domain\Model\Cart;
 use App\Domain\Repository\Cart\CreateCartRepository;
 use App\Domain\Repository\Cart\GetCartRepository;
@@ -26,12 +26,12 @@ class GetCartAction
 
         if ($sessionCartId != null) {
             $sessionCartId = UuidV4::fromString($sessionCartId);
-        }
 
-        $sessionCart = $this->tryToGetCart($sessionCartId);
+            $sessionCart = $this->tryToGetCart($sessionCartId);
 
-        if ($sessionCart) {
-            return $sessionCart;
+            if ($sessionCart) {
+                return $sessionCart;
+            }
         }
 
         $cart = $this->createNewCart();
@@ -52,18 +52,13 @@ class GetCartAction
 
     private function createNewCart(): Cart
     {
-        $cart = $this->buildCart();
-        $this->createCartRepository->createCart($cart);
-
-        return $cart;
-    }
-
-    private function buildCart(): Cart
-    {
-        return new Cart(
+        $cart = new Cart(
             Uuid::v4(),
             [],
             CartStatus::New,
         );
+        $this->createCartRepository->createCart($cart);
+
+        return $cart;
     }
 }

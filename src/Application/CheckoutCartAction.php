@@ -3,6 +3,7 @@
 namespace App\Application;
 
 use App\Domain\Enum\CartStatus;
+use App\Domain\Exception\CartAlreadyBoughtException;
 use App\Domain\Exception\EmptyCartException;
 use App\Domain\Model\Cart;
 use App\Domain\Repository\Cart\UpdateCartStatusRepository;
@@ -20,10 +21,13 @@ class CheckoutCartAction
      * @param Cart $cart
      * @return Cart
      * @throws EmptyCartException
+     * @throws CartAlreadyBoughtException
      */
     public function __invoke(Cart $cart): Cart
     {
-        CartValidator::isEmpty($cart);
+        CartValidator::isNotBought($cart);
+
+        CartValidator::isNotEmpty($cart);
 
         $cart->status = CartStatus::Bought;
 

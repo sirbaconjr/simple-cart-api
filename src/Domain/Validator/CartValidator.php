@@ -16,6 +16,16 @@ class CartValidator
      */
     public static function canReceiveItems(Cart $cart): void
     {
+        self::isNotBought($cart);
+    }
+
+    /**
+     * @param Cart $cart
+     * @return void
+     * @throws CartAlreadyBoughtException
+     */
+    public static function isNotBought(Cart $cart): void
+    {
         if ($cart->status == CartStatus::Bought) {
             throw new CartAlreadyBoughtException($cart);
         }
@@ -26,7 +36,7 @@ class CartValidator
      * @return void
      * @throws EmptyCartException
      */
-    public static function isEmpty(Cart $cart): void
+    public static function isNotEmpty(Cart $cart): void
     {
         if (empty($cart->items)) {
             throw new EmptyCartException($cart);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Helper;
+namespace App\Domain\Enum;
 
 enum SessionKey: string
 {
