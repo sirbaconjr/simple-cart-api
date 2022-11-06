@@ -4,6 +4,7 @@ namespace App\Presentation\Http\Request;
 
 use App\Presentation\Http\Exception\BadRequestException;
 use Slim\Psr7\Request as SlimRequest;
+use Symfony\Component\Uid\UuidV4;
 
 abstract class Request
 {

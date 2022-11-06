@@ -15,7 +15,7 @@ class GetAllProductsController
     {
     }
 
-    public function __invoke(Request $request, Response $response, string $id): Response
+    public function __invoke(Request $request, Response $response): Response
     {
         $products = ($this->getAllProductsAction)();
 

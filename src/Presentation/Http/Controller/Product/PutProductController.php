@@ -3,13 +3,15 @@
 namespace App\Presentation\Http\Controller\Product;
 
 use App\Application\UpdateProductAction;
+use App\Presentation\Http\Controller\Controller;
+use App\Presentation\Http\Exception\BadRequestException;
 use App\Presentation\Http\Request\Product\ProductRequest;
 use App\Presentation\Http\Response\BooleanResponse;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Symfony\Component\Uid\UuidV4;
 
-class PutProductController
+class PutProductController extends Controller
 {
     public function __construct(
         private readonly UpdateProductAction $updateProductAction
@@ -21,7 +23,11 @@ class PutProductController
     {
         $parsedId = UuidV4::fromString($id);
 
-        $parsedRequest = new ProductRequest($request);
+        try {
+            $parsedRequest = new ProductRequest($request);
+        } catch (BadRequestException $exception) {
+            return $this->buildResponseFromBadRequestException($exception, $response);
+        }
 
         ($this->updateProductAction)($parsedId, $parsedRequest->name, $parsedRequest->description, $parsedRequest->price);
 

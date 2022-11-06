@@ -3,6 +3,11 @@
 use App\Presentation\Http\Controller\Cart\GetCartController;
 use App\Presentation\Http\Controller\Cart\PatchCartController;
 use App\Presentation\Http\Controller\Cart\PostCartController;
+use App\Presentation\Http\Controller\Product\DeleteProductController;
+use App\Presentation\Http\Controller\Product\GetAllProductsController;
+use App\Presentation\Http\Controller\Product\GetProductController;
+use App\Presentation\Http\Controller\Product\PostProductController;
+use App\Presentation\Http\Controller\Product\PutProductController;
 use App\Presentation\Http\Middleware\JsonBodyParserMiddleware;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;
@@ -18,5 +23,11 @@ return function (App $app) {
         $group->get('/cart', GetCartController::class);
         $group->post('/cart', PostCartController::class);
         $group->patch('/cart', PatchCartController::class);
+
+        $group->get('/products', GetAllProductsController::class);
+        $group->get('/products/{id}', GetProductController::class);
+        $group->delete('/products/{id}', DeleteProductController::class);
+        $group->put('/products/{id}', PutProductController::class);
+        $group->post('/products', PostProductController::class);
     })->addMiddleware(new JsonBodyParserMiddleware());
 };
