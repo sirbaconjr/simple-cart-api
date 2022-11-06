@@ -3,6 +3,7 @@
 namespace Tests\Application;
 
 use App\Application\LoginUserAction;
+use App\Domain\Enum\UserType;
 use App\Domain\Exception\UserPasswordMismatch;
 use App\Domain\Exception\UserWithEmailNotFound;
 use App\Domain\Model\User;
@@ -34,7 +35,7 @@ class LoginUserActionTest extends TestCase
 
     public function testItLoginUserAndReturnsToken()
     {
-        $user = new User(UuidV4::v4(), 'user@company.com', '12345678');
+        $user = new User(UuidV4::v4(), 'user@company.com', '12345678', UserType::Customer);
         $token = 'just-a-string';
 
         $this->getUserByEmailRepository
@@ -65,7 +66,7 @@ class LoginUserActionTest extends TestCase
 
     public function testItThrowsUserWithEmailNotFound()
     {
-        $user = new User(UuidV4::v4(), 'user@company.com', '12345678');
+        $user = new User(UuidV4::v4(), 'user@company.com', '12345678', UserType::Customer);
 
         $this->getUserByEmailRepository
             ->expects($this->once())
@@ -80,7 +81,7 @@ class LoginUserActionTest extends TestCase
 
     public function testItThrowsUserPasswordMismatch()
     {
-        $user = new User(UuidV4::v4(), 'user@company.com', '12345678');
+        $user = new User(UuidV4::v4(), 'user@company.com', '12345678', UserType::Customer);
         $notTheSamePassword = 'not-the-same-password';
 
         $this->getUserByEmailRepository

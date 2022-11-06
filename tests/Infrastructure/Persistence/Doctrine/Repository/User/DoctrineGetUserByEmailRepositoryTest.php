@@ -2,6 +2,7 @@
 
 namespace Tests\Infrastructure\Persistence\Doctrine\Repository\User;
 
+use App\Domain\Enum\UserType;
 use App\Domain\Model\User;
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineCreateUserRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByEmailRepository;
@@ -14,7 +15,7 @@ class DoctrineGetUserByEmailRepositoryTest extends AppTestCase
     {
         $createUserRepository = $this->getService(DoctrineCreateUserRepository::class);
 
-        $user = new User(UuidV4::v4(), 'user@copmany.com', '12345678');
+        $user = new User(UuidV4::v4(), 'user@copmany.com', '12345678', UserType::Customer);
         $createUserRepository->createUser($user);
 
         $foundUser = $this->getService(DoctrineGetUserByEmailRepository::class)

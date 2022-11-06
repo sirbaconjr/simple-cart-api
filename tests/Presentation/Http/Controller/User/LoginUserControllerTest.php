@@ -2,6 +2,7 @@
 
 namespace Tests\Presentation\Http\Controller\User;
 
+use App\Domain\Enum\UserType;
 use App\Domain\Model\User;
 use App\Domain\Repository\User\CreateUserRepository;
 use App\Domain\Security\TokenHandler;
@@ -20,7 +21,7 @@ class LoginUserControllerTest extends AppTestCase
     {
         $plainPassword = '12345678';
         $hashedPassword = $this->getService(PasswordHasherInterface::class)->hash($plainPassword);
-        $user = new User(UuidV4::v4(), 'user@company.com', $hashedPassword);
+        $user = new User(UuidV4::v4(), 'user@company.com', $hashedPassword, UserType::Customer);
         $this->getService(CreateUserRepository::class)->createUser($user);
 
         $request = $this->createJsonRequest('POST', '/api/login', [
@@ -55,7 +56,7 @@ class LoginUserControllerTest extends AppTestCase
 
     public function testItReturnsExceptionWhenUserPasswordMismatch(): void
     {
-        $user = new User(UuidV4::v4(), 'user@company.com', '12345678');
+        $user = new User(UuidV4::v4(), 'user@company.com', '12345678', UserType::Customer);
         $this->getService(CreateUserRepository::class)->createUser($user);
 
         $request = $this->createJsonRequest('POST', '/api/login', [

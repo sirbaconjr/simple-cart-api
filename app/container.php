@@ -14,7 +14,11 @@ $containerBuilder->addDefinitions([
     'environment' => $ENV
 ]);
 $containerBuilder->addDefinitions(__DIR__ . '/../app/services.php');
-$containerBuilder->addDefinitions(__DIR__ . "/../app/services.$ENV.php");
+
+$envServices = __DIR__ . "/../app/services.$ENV.php";
+if (file_exists($envServices)) {
+    $containerBuilder->addDefinitions($envServices);
+}
 
 // Initialize app with PHP-DI
 return $containerBuilder->build();

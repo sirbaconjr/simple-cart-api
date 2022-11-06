@@ -2,6 +2,7 @@
 
 namespace Tests\Presentation\Http\Controller\User;
 
+use App\Domain\Enum\UserType;
 use App\Domain\Model\User;
 use App\Presentation\Http\Controller\User\PostUserController;
 use Doctrine\ORM\EntityManager;
@@ -24,7 +25,8 @@ class PostUserControllerTest extends AppTestCase
 
         $request = $this->createJsonRequest('POST', '/api/user', [
             'email' => $email,
-            'password' => $password
+            'password' => $password,
+            'type' => UserType::Customer
         ]);
         $response = $this->executeRequestAndParseResponse($request);
 
@@ -33,6 +35,7 @@ class PostUserControllerTest extends AppTestCase
             ->find(UuidV4::fromString($response['data']['id']));
 
         self::assertEquals($email, $user->email);
+        self::assertEquals(UserType::Customer, $user->type);
         self::assertNotEquals($password, $user->password);
         self::assertTrue(
             $this->getService(PasswordHasherInterface::class)->verify(
@@ -53,7 +56,8 @@ class PostUserControllerTest extends AppTestCase
     {
         $request = $this->createJsonRequest('POST', '/api/user', [
             'email' => $email,
-            'password' => '12345678'
+            'password' => '12345678',
+            'type' => UserType::Customer
         ]);
         $response = $this->app->handle($request);
         $body = json_decode((string) $response->getBody(), true);
@@ -95,7 +99,8 @@ class PostUserControllerTest extends AppTestCase
     {
         $request = $this->createJsonRequest('POST', '/api/user', [
             'email' => 'user@example.com',
-            'password' => $password
+            'password' => $password,
+            'type' => UserType::Customer
         ]);
         $response = $this->app->handle($request);
         $body = json_decode((string) $response->getBody(), true);
@@ -122,6 +127,49 @@ class PostUserControllerTest extends AppTestCase
             [
                 '',
                 'The password field must be a non-empty string'
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider invalidUserTypeProvider
+     *
+     * @param string $password
+     * @param string $message
+     * @return void
+     */
+    public function testItValidatesUserType(string $type, string $message): void
+    {
+        $request = $this->createJsonRequest('POST', '/api/user', [
+            'email' => 'user@example.com',
+            'password' => '12345678',
+            'type' => $type
+        ]);
+        $response = $this->app->handle($request);
+        $body = json_decode((string) $response->getBody(), true);
+
+        self::assertEquals(400, $response->getStatusCode());
+        self::assertEquals(
+            [
+                'data' => [],
+                'errors' => [
+                    'type' => $message
+                ]
+            ],
+            $body
+        );
+    }
+
+    public function invalidUserTypeProvider(): array
+    {
+        return [
+            [
+                '',
+                'The type field must be a valid user type'
+            ],
+            [
+                'not-a-type',
+                'The type field must be a valid user type'
             ]
         ];
     }

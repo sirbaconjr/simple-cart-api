@@ -3,6 +3,7 @@
 namespace Tests\Application;
 
 use App\Application\CreateUserAction;
+use App\Domain\Enum\UserType;
 use App\Domain\Exception\InvalidEmail;
 use App\Domain\Exception\InvalidPassword;
 use App\Domain\Model\User;
@@ -46,7 +47,7 @@ class CreateUserActionTest extends TestCase
             ->with($password)
             ->willReturn($password);
 
-        $user = ($this->createUserAction)($email, $password);
+        $user = ($this->createUserAction)($email, $password, UserType::Customer);
 
         self::assertEquals(
             $user->email,
@@ -63,13 +64,13 @@ class CreateUserActionTest extends TestCase
     {
         self::expectException(InvalidEmail::class);
 
-        ($this->createUserAction)('not-an-email', '12345678');
+        ($this->createUserAction)('not-an-email', '12345678', UserType::Customer);
     }
 
     public function testItThrowsInvalidPassword()
     {
         self::expectException(InvalidPassword::class);
 
-        ($this->createUserAction)('user@company.com', '');
+        ($this->createUserAction)('user@company.com', '', UserType::Customer);
     }
 }
