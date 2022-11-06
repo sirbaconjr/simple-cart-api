@@ -24,25 +24,19 @@ class GetCartControllerTest extends AppTestCase
         );
     }
 
-    public function testItCreatesAEmptyCart()
+    public function testItCreatesAEmptyCartWithStatusNew()
     {
         $request = $this->createJsonRequest('GET', '/api/cart');
-        $firstResponse = json_decode((string) $this->app->handle($request)->getBody(), true);
+        $response = json_decode((string) $this->app->handle($request)->getBody(), true);
 
         self::assertEquals(
-            $firstResponse['data']['items'],
-            []
+            [],
+            $response['data']['items']
         );
-    }
-
-    public function testItCreatesACartWithStatusNew()
-    {
-        $request = $this->createJsonRequest('GET', '/api/cart');
-        $firstResponse = json_decode((string) $this->app->handle($request)->getBody(), true);
 
         self::assertEquals(
-            $firstResponse['data']['status'],
-            CartStatus::New->value
+            CartStatus::New->value,
+            $response['data']['status']
         );
     }
 }

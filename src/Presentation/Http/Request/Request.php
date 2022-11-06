@@ -2,22 +2,32 @@
 
 namespace App\Presentation\Http\Request;
 
+use App\Presentation\Http\Exception\BadRequestException;
 use Slim\Psr7\Request as SlimRequest;
 
 abstract class Request
 {
+    /**
+     * @param SlimRequest $request
+     * @throws BadRequestException
+     */
     public function __construct(SlimRequest $request)
     {
         $body = $this->getBody($request);
         $this->setup($body);
     }
 
+    /**
+     * @param SlimRequest $request
+     * @return array
+     * @throws BadRequestException
+     */
     protected function getBody(SlimRequest $request): array
     {
         $body = $request->getParsedBody();
 
         if (empty($body) || !is_array($body)) {
-            throw new \Exception('Request body must be a valid non-empty json');
+            throw new BadRequestException('body', 'Request body must be a valid non-empty json');
         }
 
         return $body;

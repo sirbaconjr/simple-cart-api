@@ -7,6 +7,7 @@ use App\Domain\Repository\CartItem\CreateCartItemRepository;
 use App\Domain\Repository\Product\CreateProductRepository;
 use App\Domain\Repository\Product\DeleteProductRepository;
 use App\Domain\Repository\Product\GetAllProductsRepository;
+use App\Domain\Repository\Product\GetProductRepository;
 use App\Domain\Repository\Product\UpdateProductRepository;
 use App\Domain\Repository\Session\SessionRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineCreateCartRepository;
@@ -16,6 +17,7 @@ use App\Infrastructure\Persistence\Doctrine\Repository\CartItem\DoctrineCreateCa
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineCreateProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineDeleteProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineGetAllProductsRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineGetProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineUpdateProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use App\Infrastructure\Persistence\PHPSessionRepository;
@@ -69,6 +71,7 @@ return [
     CreateCartItemRepository::class => get(DoctrineCreateCartItemRepository::class),
     CreateProductRepository::class => get(DoctrineCreateProductRepository::class),
     DeleteProductRepository::class => get(DoctrineDeleteProductRepository::class),
+    GetProductRepository::class => get(DoctrineGetProductRepository::class),
     GetAllProductsRepository::class => get(DoctrineGetAllProductsRepository::class),
     UpdateProductRepository::class => get(DoctrineUpdateProductRepository::class),
     SessionRepository::class => get(PHPSessionRepository::class),

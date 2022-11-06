@@ -5,6 +5,8 @@ namespace Tests;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Selective\TestTrait\Traits\ContainerTestTrait;
 use Slim\App;
 
@@ -42,5 +44,10 @@ class AppTestCase extends TestCase
     protected function getAppInstance(): App
     {
         return require __DIR__ . '/../app/app.php';
+    }
+
+    protected function executeRequestAndParseResponse(RequestInterface $request): array
+    {
+        return json_decode((string) $this->app->handle($request)->getBody(), true);
     }
 }

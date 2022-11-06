@@ -3,11 +3,12 @@
 namespace App\Presentation\Http\Controller\Cart;
 
 use App\Application\GetCartAction;
+use App\Presentation\Http\Controller\Controller;
 use App\Presentation\Http\Response\Cart\GetCartResponse;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class GetCartController
+class GetCartController extends Controller
 {
     public function __construct(
         private readonly GetCartAction $getCartAction

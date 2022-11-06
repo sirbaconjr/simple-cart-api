@@ -2,6 +2,7 @@
 
 namespace App\Presentation\Http\Request\Cart;
 
+use App\Presentation\Http\Exception\BadRequestException;
 use App\Presentation\Http\Request\Request;
 use Symfony\Component\Uid\UuidV4;
 
@@ -12,29 +13,53 @@ class PostCartRequest extends Request
      */
     public array $items = [];
 
+    /**
+     * @param array $body
+     * @return void
+     * @throws BadRequestException
+     */
     protected function setup(array $body): void
     {
-        foreach ($body as $item) {
+        if (!array_key_exists('items', $body) || !is_array($body['items'])) {
+            throw new BadRequestException(
+                'items',
+                'Items must be a valid array containing products and amounts'
+            );
+        }
+
+        foreach ($body['items'] as $key => $item) {
             $this->items[] = new PostCartRequestCartItem(
-                $this->getId($item),
-                $this->getAmount($item)
+                $this->getId($key, $item),
+                $this->getAmount($key, $item)
             );
         }
     }
 
-    private function getId(array $item): UuidV4
+    /**
+     * @param int $key
+     * @param array $item
+     * @return UuidV4
+     * @throws BadRequestException
+     */
+    private function getId(int $key, array $item): UuidV4
     {
         if (!array_key_exists('id', $item) || !UuidV4::isValid($item['id'])) {
-            throw new \Exception('1');
+            throw new BadRequestException("items.$key.id", "ID is not a valid UUID4 string");
         }
 
         return UuidV4::fromString($item['id']);
     }
 
-    private function getAmount(array $item): int
+    /**
+     * @param int $key
+     * @param array $item
+     * @return int
+     * @throws BadRequestException
+     */
+    private function getAmount(int $key, array $item): int
     {
         if (!array_key_exists('amount', $item) || !is_numeric($item['amount']) || !is_int($item['amount'])) {
-            throw new \Exception('2');
+            throw new BadRequestException("items.$key.id", "Amount is not a number");
         }
 
         return $item['amount'];
