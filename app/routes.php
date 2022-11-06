@@ -8,6 +8,8 @@ use App\Presentation\Http\Controller\Product\GetAllProductsController;
 use App\Presentation\Http\Controller\Product\GetProductController;
 use App\Presentation\Http\Controller\Product\PostProductController;
 use App\Presentation\Http\Controller\Product\PutProductController;
+use App\Presentation\Http\Controller\User\LoginUserController;
+use App\Presentation\Http\Controller\User\PostUserController;
 use App\Presentation\Http\Middleware\JsonBodyParserMiddleware;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;
@@ -29,5 +31,8 @@ return function (App $app) {
         $group->delete('/products/{id}', DeleteProductController::class);
         $group->put('/products/{id}', PutProductController::class);
         $group->post('/products', PostProductController::class);
+
+        $group->post('/user', PostUserController::class);
+        $group->post('/login', LoginUserController::class);
     })->addMiddleware(new JsonBodyParserMiddleware());
 };

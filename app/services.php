@@ -10,6 +10,10 @@ use App\Domain\Repository\Product\GetAllProductsRepository;
 use App\Domain\Repository\Product\GetProductRepository;
 use App\Domain\Repository\Product\UpdateProductRepository;
 use App\Domain\Repository\Session\SessionRepository;
+use App\Domain\Model\User;
+use App\Domain\Repository\User\CreateUserRepository;
+use App\Domain\Repository\User\GetUserByEmailRepository;
+use App\Domain\Security\TokenHandler;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineCreateCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineGetCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineUpdateCartStatusRepository;
@@ -19,19 +23,26 @@ use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineDeletePro
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineGetAllProductsRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineGetProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineUpdateProductRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineCreateUserRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByEmailRepository;
 use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use App\Infrastructure\Persistence\PHPSessionRepository;
+use App\Infrastructure\Security\Lcobucci\LcobucciTokenHandler;
 use DI\Container;
-use DI\ContainerBuilder;
 use Doctrine\DBAL\Logging\Middleware;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ServerRequestFactory;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use function DI\get;
 
 return [
@@ -43,7 +54,7 @@ return [
 
         return $log;
     },
-    //Doctrine
+    //EntityManager
     EntityManager::class => function (Container $container) {
         $settings = [
             'dev_mode' => true,
@@ -74,6 +85,28 @@ return [
     GetProductRepository::class => get(DoctrineGetProductRepository::class),
     GetAllProductsRepository::class => get(DoctrineGetAllProductsRepository::class),
     UpdateProductRepository::class => get(DoctrineUpdateProductRepository::class),
+    GetUserByEmailRepository::class => get(DoctrineGetUserByEmailRepository::class),
+    CreateUserRepository::class => get(DoctrineCreateUserRepository::class),
     SessionRepository::class => get(PHPSessionRepository::class),
-    ServerRequestFactoryInterface::class => get(ServerRequestFactory::class)
+
+    // Slim
+    ServerRequestFactoryInterface::class => get(ServerRequestFactory::class),
+
+    // Security
+    PasswordHasherInterface::class => function() {
+        $passwordHasherFactory = new PasswordHasherFactory([
+            User::class => ['algorithm' => 'auto']
+        ]);
+
+        return $passwordHasherFactory->getPasswordHasher(User::class);
+    },
+
+    // Lcobucci
+    Configuration::class => function () {
+        return Configuration::forSymmetricSigner(
+            new Sha256(),
+            InMemory::base64Encoded($_ENV['JWT_KEY'])
+        );
+    },
+    TokenHandler::class => get(LcobucciTokenHandler::class)
 ];

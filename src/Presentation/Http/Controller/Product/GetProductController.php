@@ -25,7 +25,7 @@ class GetProductController extends Controller
             $product = ($this->getProductAction)(UuidV4::fromString($id));
         } catch (ProductNotFound $exception) {
             return $this->buildResponseFromBadRequestException(
-                new BadRequestException('id', $exception->getMessage()),
+                new BadRequestException('id', $exception->getMessage(), 404),
                 $response
             );
         }

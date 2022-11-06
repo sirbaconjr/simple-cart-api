@@ -38,7 +38,7 @@ class CartValidator
      */
     public static function isNotEmpty(Cart $cart): void
     {
-        if (empty($cart->items)) {
+        if (count($cart->items) == 0) {
             throw new EmptyCartException($cart);
         }
     }

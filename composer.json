@@ -11,7 +11,9 @@
         "symfony/uid": "^6.1",
         "doctrine/orm": "^2.13",
         "symfony/cache": "^6.1",
-        "monolog/monolog": "^3.2"
+        "monolog/monolog": "^3.2",
+        "symfony/password-hasher": "^6.1",
+        "lcobucci/jwt": "^4.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

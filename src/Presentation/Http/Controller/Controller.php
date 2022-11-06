@@ -19,4 +19,17 @@ abstract class Controller
             $exception->getCode()
         ))->build($response);
     }
+
+    protected function buildResponseFromAnyException(
+        string $key,
+        \Exception $exception,
+        ResponseInterface $response,
+        int $code = 400
+    ): ResponseInterface
+    {
+        return $this->buildResponseFromBadRequestException(
+            new BadRequestException($key, $exception->getMessage(), $code),
+            $response
+        );
+    }
 }

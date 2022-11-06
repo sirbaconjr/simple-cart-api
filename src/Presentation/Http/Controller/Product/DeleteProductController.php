@@ -27,7 +27,7 @@ class DeleteProductController extends Controller
             ($this->deleteProductAction)(UuidV4::fromString($id));
         } catch (ProductNotFound $exception) {
             return $this->buildResponseFromBadRequestException(
-                new BadRequestException('id', $exception->getMessage()),
+                new BadRequestException('id', $exception->getMessage(), 404),
                 $response
             );
         }

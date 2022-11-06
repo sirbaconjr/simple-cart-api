@@ -3,6 +3,7 @@
 namespace App\Presentation\Http\Controller\Product;
 
 use App\Application\UpdateProductAction;
+use App\Domain\Exception\ProductNotFound;
 use App\Presentation\Http\Controller\Controller;
 use App\Presentation\Http\Exception\BadRequestException;
 use App\Presentation\Http\Request\Product\ProductRequest;
@@ -19,17 +20,19 @@ class PutProductController extends Controller
     {
     }
 
+
     public function __invoke(Request $request, Response $response, string $id): Response
     {
         $parsedId = UuidV4::fromString($id);
 
         try {
             $parsedRequest = new ProductRequest($request);
+            ($this->updateProductAction)($parsedId, $parsedRequest->name, $parsedRequest->description, $parsedRequest->price);
         } catch (BadRequestException $exception) {
             return $this->buildResponseFromBadRequestException($exception, $response);
+        } catch (ProductNotFound $exception) {
+            return $this->buildResponseFromAnyException('id', $exception, $response, 404);
         }
-
-        ($this->updateProductAction)($parsedId, $parsedRequest->name, $parsedRequest->description, $parsedRequest->price);
 
         return (new BooleanResponse(true))->build($response);
     }
