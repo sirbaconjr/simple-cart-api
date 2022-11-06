@@ -5,6 +5,7 @@ namespace Tests\Presentation\Http\Controller\Cart;
 use App\Application\GetCartAction;
 use App\Domain\Enum\SessionKey;
 use App\Domain\Model\Product;
+use App\Domain\Repository\Cart\GetCartRepository;
 use App\Domain\Repository\Product\CreateProductRepository;
 use App\Domain\Repository\Session\SessionRepository;
 use Selective\TestTrait\Traits\HttpJsonTestTrait;
@@ -43,6 +44,19 @@ class PostCartControllerTest extends AppTestCase
 
         self::assertEquals($payload['items'], $response['data']['items']);
         self::assertEquals([], $response['errors']);
+
+        $freshCart = $this->getService(GetCartRepository::class)->getCart($cart->id);
+
+        self::assertEquals(
+            [
+                'id' => $product->id,
+                'amount' => 1
+            ],
+            [
+                'id' => $freshCart->items[0]->product->id,
+                'amount' => $freshCart->items[0]->amount
+            ]
+        );
     }
 
     /**
@@ -159,6 +173,24 @@ class PostCartControllerTest extends AppTestCase
                 'items.2' => "Product with ID '{$randomId->jsonSerialize()}' not found"
             ],
             $response['errors']
+        );
+
+        $freshCart = $this->getService(GetCartRepository::class)->getCart($cart->id);
+
+        self::assertEquals(
+            1,
+            count($freshCart->items)
+        );
+
+        self::assertEquals(
+            [
+                'id' => $product->id,
+                'amount' => 1
+            ],
+            [
+                'id' => $freshCart->items[0]->product->id,
+                'amount' => $freshCart->items[0]->amount
+            ]
         );
     }
 }

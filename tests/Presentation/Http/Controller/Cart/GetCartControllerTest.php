@@ -3,8 +3,10 @@
 namespace Tests\Presentation\Http\Controller\Cart;
 
 use App\Domain\Enum\CartStatus;
+use App\Domain\Repository\Cart\GetCartRepository;
 use Selective\TestTrait\Traits\HttpJsonTestTrait;
 use Selective\TestTrait\Traits\HttpTestTrait;
+use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 
 class GetCartControllerTest extends AppTestCase
@@ -27,7 +29,7 @@ class GetCartControllerTest extends AppTestCase
     public function testItCreatesAEmptyCartWithStatusNew()
     {
         $request = $this->createJsonRequest('GET', '/api/cart');
-        $response = json_decode((string) $this->app->handle($request)->getBody(), true);
+        $response = $this->executeRequestAndParseResponse($request);
 
         self::assertEquals(
             [],
@@ -38,5 +40,15 @@ class GetCartControllerTest extends AppTestCase
             CartStatus::New->value,
             $response['data']['status']
         );
+
+        $cart = $this->getService(GetCartRepository::class)
+            ->getCart(UuidV4::fromString($response['data']['id']));
+
+        self::assertEquals(
+            CartStatus::New,
+            $cart->status
+        );
+
+        self::assertEmpty($cart->items);
     }
 }
