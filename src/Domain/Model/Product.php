@@ -13,7 +13,7 @@ class Product
      * @param float $price
      */
     public function __construct(
-        public readonly UuidV4 $id,
+        public UuidV4 $id,
         public string $name,
         public string $description,
         public float $price

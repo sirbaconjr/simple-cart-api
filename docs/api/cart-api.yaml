@@ -36,7 +36,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ArrayOfCartItems'
+              type: object
+              properties:
+                item:
+                  $ref: '#/components/schemas/ArrayOfCartItems'
       responses:
         "200":
           description: Successful operation
@@ -44,14 +47,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Cart'
-        "400":
-          description: Cart already bought exception
     patch:
       tags:
         - cart
       summary: Update the cart status
       description: >
         Update the current cart status. A cart status cannot be moved to `new` once it becomes `bought`.
+        This resquest can only be made by a authenticated Customer or Manager
+      security:
+        - BearerAuth: []
       requestBody:
         description: Status to be updated
         required: true
@@ -71,10 +75,231 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Cart'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/InvalidCartStatusResponse'
+                  - $ref: '#/components/schemas/CartAlreadyBoughtResponse'
+                  - $ref: '#/components/schemas/CartIsEmptyResponse'
+  /products:
+    get:
+      tags:
+        - products
+      summary: Get list of products
+      description: >
+        Returns the list of all products
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllProductsResponse'
+    post:
+      tags:
+        - products
+      summary: Create a new product
+      description: >
+        Creates a new product.
+        This resquest can only be made by a authenticated Manager
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Name, description and price of the product
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInformation'
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/NonEmptyNameResponse'
+                  - $ref: '#/components/schemas/NonEmptyDescriptionResponse'
+                  - $ref: '#/components/schemas/NonEmptyPriceResponse'
+  /products/{id}:
+    get:
+      tags:
+        - products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: '#/components/schemas/Uuid'
+          required: true
+      summary: Get a product
+      description: >
+        Returns the specified product
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllProductsResponse'
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductNotFoundResponse'
+    put:
+      tags:
+        - products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: '#/components/schemas/Uuid'
+          required: true
+      summary: Updates a product
+      description: >
+        Updates a product.
+        This resquest can only be made by a authenticated Manager
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrueResponse'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/NonEmptyNameResponse'
+                  - $ref: '#/components/schemas/NonEmptyDescriptionResponse'
+                  - $ref: '#/components/schemas/NonEmptyPriceResponse'
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductNotFoundResponse'
+    delete:
+      tags:
+        - products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: '#/components/schemas/Uuid'
+          required: true
+      summary: Deletes a product
+      description: >
+        Deletes a product.
+        This resquest can only be made by a authenticated Manager.
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrueResponse'
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductNotFoundResponse'
+  /user:
+    post:
+      tags:
+        - users
+      summary: Create a new user
+      requestBody:
+        description: Email and password of the user to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBody'
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/NonEmptyEmailResponse'
+                  - $ref: '#/components/schemas/NonEmptyPasswordResponse'
+                  - $ref: '#/components/schemas/NonEmptyTypeResponse'
+                  - $ref: '#/components/schemas/InvalidEmail'
+                  - $ref: '#/components/schemas/InvalidPassword'
+  /login:
+    post:
+      tags:
+        - users
+      summary: Authenticates a user
+      requestBody:
+        description: Email and password of the user to be authenticated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserEmailAndPassword'
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/UserPasswordMismatchResponse'
+                  - $ref: '#/components/schemas/NonEmptyEmailResponse'
+                  - $ref: '#/components/schemas/NonEmptyPasswordResponse'
 servers:
-  - url: http://localhost:8080/api/v1
+  - url: http://localhost:8080/api
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
+    Uuid:
+      type: string
+      format: uuid
+      description: A valid UUID V4 string
+      example: '7a4bfde2-f594-4ddf-9e93-1af0e934ffb8'
+    ApiResponse:
+      type: object
+      properties:
+        data:
+          type: object
+        errors:
+          type: object
     CartStatus:
       type: string
       description: The current status of the cart
@@ -82,21 +307,20 @@ components:
         - new
         - bought
     Cart:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                id:
+                  $ref: '#/components/schemas/Uuid'
+                status:
+                  $ref: '#/components/schemas/CartStatus'
+    ProductInformation:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          description: A valid UUID V4 string
-        status:
-          $ref: '#/components/schemas/CartStatus'
-    Product:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: A valid UUID V4 string
         name:
           type: string
           example: Fox plushie
@@ -107,6 +331,13 @@ components:
           type: number
           format: float
           example: 42.78
+    Product:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/Uuid'
+        - $ref: '#/components/schemas/ProductInformation'
     CartItem:
       type: object
       properties:
@@ -122,3 +353,220 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/CartItem'
+    InvalidCartStatusResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: Invalid status
+    CartAlreadyBoughtResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: Cart 7a4bfde2-f594-4ddf-9e93-1af0e934ffb8 already bought
+    CartIsEmptyResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: Cart 7a4bfde2-f594-4ddf-9e93-1af0e934ffb8 is empty
+    NonEmptyNameResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: The name field must be a non-empty string
+    NonEmptyDescriptionResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: The description field must be a non-empty string
+    NonEmptyPriceResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: The price field must be a non-empty string
+    GetAllProductsResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+    ProductResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Product'
+    ProductNotFoundResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: Product with ID 7a4bfde2-f594-4ddf-9e93-1af0e934ffb8 not found
+    TrueResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+    UserEmailAndPassword:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: user@company.com
+        password:
+          type: string
+          format: password
+    UserBody:
+      allOf:
+        - $ref: '#/components/schemas/UserEmailAndPassword'
+        - type: object
+          properties:
+            type:
+              type: string
+              description: The type of the user
+              enum:
+                - customer
+                - manager
+    UserResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                id:
+                  $ref: '#/components/schemas/Uuid'
+                email:
+                  type: string
+                  format: email
+                  example: user@company.com
+    TokenResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                token:
+                  type: string
+                  format: JWT
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    NonEmptyTypeResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: The type field must be a valid user type
+    NonEmptyEmailResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: The email field must be a non-empty string
+    NonEmptyPasswordResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: The password field must be a valid user type
+    InvalidEmail:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: The provided email is not a valid email address
+    InvalidPassword:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: The password must have at least 8 characters
+    UserPasswordMismatchResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            errors:
+              type: object
+              properties:
+                user:
+                  type: string
+                  example: Unable to authenticate with given email and password

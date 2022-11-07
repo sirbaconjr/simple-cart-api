@@ -32,7 +32,7 @@ return function (App $app) {
             new UserOfTypeAuthenticatedMiddleware(
                 $app->getContainer()->get(TokenHandler::class),
                 $app->getContainer()->get(GetUserByIdRepository::class),
-                [UserType::Customer]
+                [UserType::Customer, UserType::Manager]
             )
         );
 

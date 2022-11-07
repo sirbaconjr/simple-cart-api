@@ -8,7 +8,7 @@
         <id name="id" column="id" type="uuid">
             <generator strategy="NONE"/>
         </id>
-        <one-to-many field="items" target-entity="CartItem" mapped-by="cart" />
+        <one-to-many field="items" target-entity="CartItem" mapped-by="cart" fetch="EAGER" />
         <field name="status"/>
     </entity>
 </doctrine-mapping>
