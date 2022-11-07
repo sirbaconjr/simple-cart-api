@@ -9,6 +9,7 @@ use App\Domain\Exception\EmptyCartException;
 use App\Domain\Model\Cart;
 use App\Domain\Model\CartItem;
 use App\Domain\Model\Product;
+use App\Domain\Repository\Cart\ScheduleCartCheckoutEmailRepository;
 use App\Domain\Repository\Cart\UpdateCartStatusRepository;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\UuidV4;
@@ -16,12 +17,19 @@ use Symfony\Component\Uid\UuidV4;
 class CheckoutCartActionTest extends TestCase
 {
     private UpdateCartStatusRepository $updateCartStatusRepository;
+    private ScheduleCartCheckoutEmailRepository $scheduleCartCheckoutEmailRepository;
     private CheckoutCartAction $checkoutCartAction;
 
     protected function setUp(): void
     {
         $this->updateCartStatusRepository = self::createMock(UpdateCartStatusRepository::class);
-        $this->checkoutCartAction = new CheckoutCartAction($this->updateCartStatusRepository);
+        $this->scheduleCartCheckoutEmailRepository = self::createMock(
+            ScheduleCartCheckoutEmailRepository::class
+        );
+        $this->checkoutCartAction = new CheckoutCartAction(
+            $this->updateCartStatusRepository,
+            $this->scheduleCartCheckoutEmailRepository
+        );
         parent::setUp();
     }
 
@@ -58,6 +66,11 @@ class CheckoutCartActionTest extends TestCase
                     return $cart->status == CartStatus::Bought;
                 }
             ));
+
+        $this->scheduleCartCheckoutEmailRepository
+            ->expects(self::once())
+            ->method('schedule')
+            ->with($cart);
 
         $result = ($this->checkoutCartAction)($cart);
 

@@ -2,6 +2,7 @@
 
 use App\Domain\Repository\Cart\CreateCartRepository;
 use App\Domain\Repository\Cart\GetCartRepository;
+use App\Domain\Repository\Cart\ScheduleCartCheckoutEmailRepository;
 use App\Domain\Repository\Cart\UpdateCartStatusRepository;
 use App\Domain\Repository\CartItem\CreateCartItemRepository;
 use App\Domain\Repository\Product\CreateProductRepository;
@@ -29,6 +30,7 @@ use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByEma
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByIdRepository;
 use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use App\Infrastructure\Persistence\PHPSessionRepository;
+use App\Infrastructure\Persistence\RabbitMQ\Cart\RabbitMQScheduleCartCheckoutEmailRepository;
 use App\Infrastructure\Security\Lcobucci\LcobucciTokenHandler;
 use DI\Container;
 use Doctrine\DBAL\Logging\Middleware;
@@ -40,6 +42,7 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ServerRequestFactory;
@@ -56,7 +59,7 @@ return [
 
         return $log;
     },
-    //EntityManager
+    // Doctrine
     EntityManager::class => function (Container $container) {
         $settings = [
             'dev_mode' => true,
@@ -90,6 +93,8 @@ return [
     GetUserByEmailRepository::class => get(DoctrineGetUserByEmailRepository::class),
     GetUserByIdRepository::class => get(DoctrineGetUserByIdRepository::class),
     CreateUserRepository::class => get(DoctrineCreateUserRepository::class),
+
+    // Session
     SessionRepository::class => get(PHPSessionRepository::class),
 
     // Slim
@@ -111,5 +116,17 @@ return [
             InMemory::base64Encoded($_ENV['JWT_KEY'])
         );
     },
-    TokenHandler::class => get(LcobucciTokenHandler::class)
+    TokenHandler::class => get(LcobucciTokenHandler::class),
+
+    // Queues
+    PhpAmqpLib\Channel\AMQPChannel::class => function () {
+        $connection = new AMQPStreamConnection(
+            $_ENV['RABBIT_MQ_HOST'],
+            $_ENV['RABBIT_MQ_PORT'],
+            $_ENV['RABBIT_MQ_USER'],
+            $_ENV['RABBIT_MQ_PASS']);
+
+        return $connection->channel();
+    },
+    ScheduleCartCheckoutEmailRepository::class => get(RabbitMQScheduleCartCheckoutEmailRepository::class)
 ];

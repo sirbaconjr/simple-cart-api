@@ -19,9 +19,24 @@ services:
       test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
       retries: 3
       timeout: 5s
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - 'rabbitmq-data:/var/lib/rabbitmq'
+      - 'rabbitmq-log:/var/log/rabbitmq'
+    networks:
+      - cart-api
 networks:
   cart-api:
     driver: bridge
 volumes:
   mysql:
+    driver: local
+  rabbitmq-data:
+    driver: local
+  rabbitmq-log:
     driver: local

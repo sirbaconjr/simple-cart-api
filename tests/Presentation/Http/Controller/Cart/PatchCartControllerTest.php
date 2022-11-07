@@ -9,6 +9,7 @@ use App\Domain\Model\Product;
 use App\Domain\Repository\Cart\GetCartRepository;
 use App\Domain\Repository\Cart\UpdateCartStatusRepository;
 use App\Domain\Repository\Product\CreateProductRepository;
+use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 
@@ -22,6 +23,15 @@ class PatchCartControllerTest extends AppTestCase
         $cart = $this->getService(GetCartAction::class)();
 
         ($this->getService(AddProductToCartAction::class))($cart, $product->id, 1);
+
+        $this->AMQPChannel
+            ->expects(self::once())
+            ->method('basic_publish')
+            ->with(
+                self::callback(function (AMQPMessage $msg) use ($cart) {
+                    return $msg->getBody() == $cart->id;
+                })
+            );
 
         $request = $this->createJsonAuthenticatedRequest('PATCH', '/api/cart', [
             'status' => CartStatus::Bought->value
