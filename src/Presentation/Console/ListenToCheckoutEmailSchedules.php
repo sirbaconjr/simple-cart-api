@@ -56,6 +56,14 @@ class ListenToCheckoutEmailSchedules extends Command
 
         $io->title("Listening to queue: " . Queue::CHECKOUT_EMAIL->value);
 
+        $this->channel->queue_declare(
+            Queue::CHECKOUT_EMAIL->value,
+            false,
+            false,
+            false,
+            false
+        );
+
         $this->channel->basic_consume(Queue::CHECKOUT_EMAIL->value, '', false, false, false, false, $callback);
 
         while ($this->channel->is_open()) {

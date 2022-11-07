@@ -52,6 +52,12 @@ but if needed, they can be installed through the following command.
 docker-compose exec app composer install
 ```
 
+### Running email schedule listener
+
+```shell
+docker-compose exec app php bin/console.php app:listener:checkout-email-schedules
+```
+
 ### Running tests
 
 ```shell
