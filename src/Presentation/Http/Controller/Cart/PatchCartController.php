@@ -30,7 +30,7 @@ class PatchCartController extends Controller
 
             $cart = ($this->getCartAction)();
 
-            ($this->checkoutCartAction)($cart);
+            ($this->checkoutCartAction)($cart, $request->getAttribute('user'));
         } catch (BadRequestException $exception) {
             return $this->buildResponseFromBadRequestException($exception, $response);
         } catch (CartAlreadyBoughtException|EmptyCartException $exception) {

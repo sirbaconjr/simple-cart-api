@@ -7,7 +7,7 @@ use App\Application\GetCartAction;
 use App\Domain\Enum\CartStatus;
 use App\Domain\Model\Product;
 use App\Domain\Repository\Cart\GetCartRepository;
-use App\Domain\Repository\Cart\UpdateCartStatusRepository;
+use App\Domain\Repository\Cart\UpdateCartRepository;
 use App\Domain\Repository\Product\CreateProductRepository;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\Uid\UuidV4;
@@ -97,7 +97,7 @@ class PatchCartControllerTest extends AppTestCase
 
         $freshCart = $this->getService(GetCartRepository::class)->getCart($cart->id);
         $freshCart->status = CartStatus::Bought;
-        $this->getService(UpdateCartStatusRepository::class)->update($freshCart);
+        $this->getService(UpdateCartRepository::class)->update($freshCart);
 
         $request = $this->createJsonAuthenticatedRequest('PATCH', '/api/cart', [
             'status' => CartStatus::Bought->value

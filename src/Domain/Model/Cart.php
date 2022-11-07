@@ -11,11 +11,13 @@ class Cart
      * @param UuidV4 $id
      * @param CartItem[] $items
      * @param CartStatus $status
+     * @param User|null $user
      */
     public function __construct(
         public readonly UuidV4 $id,
         public iterable $items,
-        public CartStatus $status
+        public CartStatus $status,
+        public ?User $user = null
     ) {}
 
     public function total(): float

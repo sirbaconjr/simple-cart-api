@@ -3,7 +3,7 @@
 use App\Domain\Repository\Cart\CreateCartRepository;
 use App\Domain\Repository\Cart\GetCartRepository;
 use App\Domain\Repository\Cart\ScheduleCartCheckoutEmailRepository;
-use App\Domain\Repository\Cart\UpdateCartStatusRepository;
+use App\Domain\Repository\Cart\UpdateCartRepository;
 use App\Domain\Repository\CartItem\CreateCartItemRepository;
 use App\Domain\Repository\Product\CreateProductRepository;
 use App\Domain\Repository\Product\DeleteProductRepository;
@@ -18,7 +18,7 @@ use App\Domain\Repository\User\GetUserByIdRepository;
 use App\Domain\Security\TokenHandler;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineCreateCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineGetCartRepository;
-use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineUpdateCartStatusRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineUpdateCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\CartItem\DoctrineCreateCartItemRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineCreateProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineDeleteProductRepository;
@@ -32,6 +32,7 @@ use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use App\Infrastructure\Persistence\PHPSessionRepository;
 use App\Infrastructure\Persistence\RabbitMQ\Cart\RabbitMQScheduleCartCheckoutEmailRepository;
 use App\Infrastructure\Security\Lcobucci\LcobucciTokenHandler;
+use App\Presentation\Console\ListenToCheckoutEmailSchedules;
 use DI\Container;
 use Doctrine\DBAL\Logging\Middleware;
 use Doctrine\DBAL\Types\Type;
@@ -46,6 +47,10 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ServerRequestFactory;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use function DI\get;
@@ -83,7 +88,7 @@ return [
     },
     CreateCartRepository::class => get(DoctrineCreateCartRepository::class),
     GetCartRepository::class => get(DoctrineGetCartRepository::class),
-    UpdateCartStatusRepository::class => get(DoctrineUpdateCartStatusRepository::class),
+    UpdateCartRepository::class => get(DoctrineUpdateCartRepository::class),
     CreateCartItemRepository::class => get(DoctrineCreateCartItemRepository::class),
     CreateProductRepository::class => get(DoctrineCreateProductRepository::class),
     DeleteProductRepository::class => get(DoctrineDeleteProductRepository::class),
@@ -128,5 +133,25 @@ return [
 
         return $connection->channel();
     },
-    ScheduleCartCheckoutEmailRepository::class => get(RabbitMQScheduleCartCheckoutEmailRepository::class)
+    ScheduleCartCheckoutEmailRepository::class => get(RabbitMQScheduleCartCheckoutEmailRepository::class),
+
+    // Console
+    Application::class => function (Container $container) {
+        $application = new Application();
+
+        $application->add(
+            $container->get(ListenToCheckoutEmailSchedules::class)
+        );
+
+        return $application;
+    },
+
+    //Mailer
+    MailerInterface::class => function () {
+        $transport = Transport::fromDsn(
+            $_ENV['MAILER_DSN']
+        );
+
+        return new Mailer($transport);
+    },
 ];

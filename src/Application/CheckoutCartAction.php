@@ -6,14 +6,15 @@ use App\Domain\Enum\CartStatus;
 use App\Domain\Exception\CartAlreadyBoughtException;
 use App\Domain\Exception\EmptyCartException;
 use App\Domain\Model\Cart;
+use App\Domain\Model\User;
 use App\Domain\Repository\Cart\ScheduleCartCheckoutEmailRepository;
-use App\Domain\Repository\Cart\UpdateCartStatusRepository;
+use App\Domain\Repository\Cart\UpdateCartRepository;
 use App\Domain\Validator\CartValidator;
 
 class CheckoutCartAction
 {
     public function __construct(
-        private readonly UpdateCartStatusRepository $updateCartStatusRepository,
+        private readonly UpdateCartRepository                $updateRepository,
         private readonly ScheduleCartCheckoutEmailRepository $scheduleCartCheckoutEmailRepository
     )
     {
@@ -21,11 +22,12 @@ class CheckoutCartAction
 
     /**
      * @param Cart $cart
+     * @param User $user
      * @return Cart
-     * @throws EmptyCartException
      * @throws CartAlreadyBoughtException
+     * @throws EmptyCartException
      */
-    public function __invoke(Cart $cart): Cart
+    public function __invoke(Cart $cart, User $user): Cart
     {
         CartValidator::isNotBought($cart);
 
@@ -33,7 +35,9 @@ class CheckoutCartAction
 
         $cart->status = CartStatus::Bought;
 
-        $this->updateCartStatusRepository->update($cart);
+        $cart->user = $user;
+
+        $this->updateRepository->update($cart);
 
         $this->scheduleCartCheckoutEmailRepository->schedule($cart);
 

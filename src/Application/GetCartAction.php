@@ -29,7 +29,7 @@ class GetCartAction
 
             $sessionCart = $this->tryToGetCart($sessionCartId);
 
-            if ($sessionCart) {
+            if ($sessionCart && $sessionCart->status != CartStatus::Bought) {
                 return $sessionCart;
             }
         }

@@ -3,10 +3,10 @@
 namespace App\Infrastructure\Persistence\Doctrine\Repository\Cart;
 
 use App\Domain\Model\Cart;
-use App\Domain\Repository\Cart\UpdateCartStatusRepository;
+use App\Domain\Repository\Cart\UpdateCartRepository;
 use Doctrine\ORM\EntityManager;
 
-class DoctrineUpdateCartStatusRepository implements UpdateCartStatusRepository
+class DoctrineUpdateCartRepository implements UpdateCartRepository
 {
     public function __construct(
         private readonly EntityManager $entityManager

@@ -4,25 +4,29 @@ namespace Tests\Application;
 
 use App\Application\CheckoutCartAction;
 use App\Domain\Enum\CartStatus;
+use App\Domain\Enum\UserType;
 use App\Domain\Exception\CartAlreadyBoughtException;
 use App\Domain\Exception\EmptyCartException;
 use App\Domain\Model\Cart;
 use App\Domain\Model\CartItem;
 use App\Domain\Model\Product;
+use App\Domain\Model\User;
 use App\Domain\Repository\Cart\ScheduleCartCheckoutEmailRepository;
-use App\Domain\Repository\Cart\UpdateCartStatusRepository;
+use App\Domain\Repository\Cart\UpdateCartRepository;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\UuidV4;
 
 class CheckoutCartActionTest extends TestCase
 {
-    private UpdateCartStatusRepository $updateCartStatusRepository;
+    private UpdateCartRepository $updateCartStatusRepository;
     private ScheduleCartCheckoutEmailRepository $scheduleCartCheckoutEmailRepository;
     private CheckoutCartAction $checkoutCartAction;
+    private User $user;
 
     protected function setUp(): void
     {
-        $this->updateCartStatusRepository = self::createMock(UpdateCartStatusRepository::class);
+        $this->user = new User(UuidV4::v4(), 'user@company.com', '12345678', UserType::Customer);
+        $this->updateCartStatusRepository = self::createMock(UpdateCartRepository::class);
         $this->scheduleCartCheckoutEmailRepository = self::createMock(
             ScheduleCartCheckoutEmailRepository::class
         );
@@ -39,7 +43,7 @@ class CheckoutCartActionTest extends TestCase
 
         self::expectException(EmptyCartException::class);
 
-        ($this->checkoutCartAction)($cart);
+        ($this->checkoutCartAction)($cart, $this->user);
     }
 
     public function testItThrowsCartAlreadyBoughtWhenCartIsAlreadyBought()
@@ -48,7 +52,7 @@ class CheckoutCartActionTest extends TestCase
 
         self::expectException(CartAlreadyBoughtException::class);
 
-        ($this->checkoutCartAction)($cart);
+        ($this->checkoutCartAction)($cart, $this->user);
     }
 
     public function testItCheckoutsACart()
@@ -72,8 +76,9 @@ class CheckoutCartActionTest extends TestCase
             ->method('schedule')
             ->with($cart);
 
-        $result = ($this->checkoutCartAction)($cart);
+        $result = ($this->checkoutCartAction)($cart, $this->user);
 
         self::assertEquals($cart, $result);
+        self::assertEquals($cart->user, $this->user);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Domain\Repository\Cart;
 
 use App\Domain\Model\Cart;
 
-interface UpdateCartStatusRepository
+interface UpdateCartRepository
 {
     /**
      * @param Cart $cart
