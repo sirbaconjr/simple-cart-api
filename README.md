@@ -4,30 +4,25 @@
 
 This is a simple cart api application, the following operations are implemented:
 
-* None
-
-The following operations are pending:
-
 * Add Items to Cart
 * Get Cart information
-* Update cart status
-* Update cart items
+* Checkout cart
+* CRUD for Product
 * Create User
 * Login User
 
 ### Schematics
 
 The details of how the application works are provided in the [schematics](docs/schematics) folder.
-All these can be opened on [Diagrams.net](https://diagrams.net). 
 
 Here is a list of the available schemas: 
 
-* [Actions](/docs/schematics/actions.drawio.xml): Detailed explanation of the actions that can be done on the system
-* [Endpoints](/docs/schematics/endpoints.drawio.xml): Detailed explanation of how the actions are used to represent the API behaviour 
+* [Actions](/docs/schematics/actions.drawio.xml): Detailed explanation of the actions that can be done on the system. Can be opened on [Diagrams.net](https://diagrams.net).
+* [Endpoints](/docs/api/cart-api.yaml): OpenAPI 3 specification of the endpoints 
 
 ### Prerequisites
 
-* php (v8.1)
+* docker-compose (or simillar)
 
 ### Setup
 
@@ -37,22 +32,28 @@ After cloning the application copy the .env.sample file
 cp .env.sample .env
 ```
 
-### Installing dependencies
+The database and rabbitmq envs are already set for the docker-compose services.
+Please remember to update the MAILER_DSN, so you can properly test the mailer service.
+
+### Bringing up the application
 
 ```shell
-composer install
-```
-
-### Running the application
-
-```shell
-composer start
+docker-compose up -d
 ```
 
 With this the application will be available at [localhost:8080](http://localhost:8080)
 
+### Installing dependencies
+
+Dependencies should already be installed when bringing up the container,
+but if needed, they can be installed through the following command.
+
+```shell
+docker-compose exec app composer install
+```
+
 ### Running tests
 
 ```shell
-composer test
+docker-compose exec app composer test
 ```
