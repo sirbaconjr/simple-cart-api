@@ -11,7 +11,7 @@ use Tests\AppTestCase;
 
 class DoctrineCreateUserRepositoryTest extends AppTestCase
 {
-    public function testItCreatesACart()
+    public function testItCreatesAUser()
     {
         $createUserRepository = $this->getService(DoctrineCreateUserRepository::class);
 

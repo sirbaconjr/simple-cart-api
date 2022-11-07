@@ -13,6 +13,7 @@ use App\Domain\Repository\Session\SessionRepository;
 use App\Domain\Model\User;
 use App\Domain\Repository\User\CreateUserRepository;
 use App\Domain\Repository\User\GetUserByEmailRepository;
+use App\Domain\Repository\User\GetUserByIdRepository;
 use App\Domain\Security\TokenHandler;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineCreateCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineGetCartRepository;
@@ -25,6 +26,7 @@ use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineGetProduc
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineUpdateProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineCreateUserRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByEmailRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByIdRepository;
 use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use App\Infrastructure\Persistence\PHPSessionRepository;
 use App\Infrastructure\Security\Lcobucci\LcobucciTokenHandler;
@@ -86,6 +88,7 @@ return [
     GetAllProductsRepository::class => get(DoctrineGetAllProductsRepository::class),
     UpdateProductRepository::class => get(DoctrineUpdateProductRepository::class),
     GetUserByEmailRepository::class => get(DoctrineGetUserByEmailRepository::class),
+    GetUserByIdRepository::class => get(DoctrineGetUserByIdRepository::class),
     CreateUserRepository::class => get(DoctrineCreateUserRepository::class),
     SessionRepository::class => get(PHPSessionRepository::class),
 

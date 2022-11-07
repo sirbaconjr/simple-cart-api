@@ -6,10 +6,12 @@ use App\Domain\Enum\UserType;
 use App\Domain\Model\User;
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineCreateUserRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByEmailRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByIdRepository;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 
-class DoctrineGetUserByEmailRepositoryTest extends AppTestCase
+class DoctrineGetUserByIdRepositoryTest extends AppTestCase
 {
     public function testItGetsUser()
     {
@@ -18,8 +20,8 @@ class DoctrineGetUserByEmailRepositoryTest extends AppTestCase
         $user = new User(UuidV4::v4(), 'user@copmany.com', '12345678', UserType::Customer);
         $createUserRepository->createUser($user);
 
-        $foundUser = $this->getService(DoctrineGetUserByEmailRepository::class)
-            ->findUserByEmail($user->email);
+        $foundUser = $this->getService(DoctrineGetUserByIdRepository::class)
+            ->getUserById($user->id);
 
         self::assertEquals($user, $foundUser);
     }
