@@ -6,9 +6,6 @@ use App\Domain\Enum\UserType;
 use App\Domain\Model\Product;
 use App\Domain\Repository\Product\CreateProductRepository;
 use App\Domain\Repository\Product\GetProductRepository;
-use PHPUnit\Framework\TestCase;
-use Selective\TestTrait\Traits\HttpJsonTestTrait;
-use Selective\TestTrait\Traits\HttpTestTrait;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

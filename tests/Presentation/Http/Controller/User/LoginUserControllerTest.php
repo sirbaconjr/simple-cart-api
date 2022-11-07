@@ -6,8 +6,6 @@ use App\Domain\Enum\UserType;
 use App\Domain\Model\User;
 use App\Domain\Repository\User\CreateUserRepository;
 use App\Domain\Security\TokenHandler;
-use Selective\TestTrait\Traits\HttpJsonTestTrait;
-use Selective\TestTrait\Traits\HttpTestTrait;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;

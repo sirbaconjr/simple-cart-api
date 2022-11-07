@@ -8,8 +8,6 @@ use App\Domain\Model\Product;
 use App\Domain\Repository\Cart\GetCartRepository;
 use App\Domain\Repository\Product\CreateProductRepository;
 use App\Domain\Repository\Session\SessionRepository;
-use Selective\TestTrait\Traits\HttpJsonTestTrait;
-use Selective\TestTrait\Traits\HttpTestTrait;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

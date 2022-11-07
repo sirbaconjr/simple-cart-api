@@ -11,7 +11,6 @@ use App\Presentation\Http\Controller\Controller;
 use App\Presentation\Http\Exception\BadRequestException;
 use App\Presentation\Http\Request\Cart\PostCartRequest;
 use App\Presentation\Http\Response\Cart\PostCartResponse;
-use App\Presentation\Http\Response\ErrorResponse;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 

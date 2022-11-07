@@ -6,8 +6,6 @@ use App\Domain\Enum\CartStatus;
 use App\Domain\Exception\CartAlreadyBoughtException;
 use App\Domain\Exception\EmptyCartException;
 use App\Domain\Model\Cart;
-use App\Domain\Model\CartItem;
-use App\Domain\Model\Product;
 use App\Domain\Validator\CartValidator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Uuid;

@@ -4,8 +4,6 @@ namespace Tests\Presentation\Http\Controller\Product;
 
 use App\Domain\Model\Product;
 use App\Domain\Repository\Product\CreateProductRepository;
-use Selective\TestTrait\Traits\HttpJsonTestTrait;
-use Selective\TestTrait\Traits\HttpTestTrait;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

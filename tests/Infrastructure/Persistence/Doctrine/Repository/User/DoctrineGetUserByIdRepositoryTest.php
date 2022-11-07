@@ -5,9 +5,7 @@ namespace Tests\Infrastructure\Persistence\Doctrine\Repository\User;
 use App\Domain\Enum\UserType;
 use App\Domain\Model\User;
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineCreateUserRepository;
-use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByEmailRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\User\DoctrineGetUserByIdRepository;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

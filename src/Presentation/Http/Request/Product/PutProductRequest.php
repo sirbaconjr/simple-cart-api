@@ -3,7 +3,6 @@
 namespace App\Presentation\Http\Request\Product;
 
 use App\Presentation\Http\Exception\BadRequestException;
-use App\Presentation\Http\Request\Request;
 use Symfony\Component\Uid\UuidV4;
 
 class PutProductRequest extends ProductRequest

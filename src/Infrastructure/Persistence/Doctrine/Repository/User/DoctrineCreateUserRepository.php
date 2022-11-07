@@ -2,8 +2,8 @@
 
 namespace App\Infrastructure\Persistence\Doctrine\Repository\User;
 
-use App\Domain\Repository\User\CreateUserRepository;
 use App\Domain\Model\User;
+use App\Domain\Repository\User\CreateUserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;

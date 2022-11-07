@@ -3,8 +3,8 @@
 namespace App\Infrastructure\Persistence\Doctrine\Repository\User;
 
 use App\Domain\Exception\UserWithIdNotFound;
-use App\Domain\Repository\User\GetUserByIdRepository;
 use App\Domain\Model\User;
+use App\Domain\Repository\User\GetUserByIdRepository;
 use Doctrine\ORM\EntityManager;
 
 class DoctrineGetUserByIdRepository implements GetUserByIdRepository

@@ -4,15 +4,12 @@ namespace App\Presentation\Http\Controller\Cart;
 
 use App\Application\CheckoutCartAction;
 use App\Application\GetCartAction;
-use App\Domain\Enum\CartStatus;
 use App\Domain\Exception\CartAlreadyBoughtException;
-use App\Domain\Exception\CartNotFound;
 use App\Domain\Exception\EmptyCartException;
 use App\Presentation\Http\Controller\Controller;
 use App\Presentation\Http\Exception\BadRequestException;
 use App\Presentation\Http\Request\Cart\PatchCartRequest;
 use App\Presentation\Http\Response\Cart\PatchCartResponse;
-use App\Presentation\Http\Response\ErrorResponse;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;

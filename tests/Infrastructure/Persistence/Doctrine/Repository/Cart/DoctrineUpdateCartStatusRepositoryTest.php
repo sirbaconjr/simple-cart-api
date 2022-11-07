@@ -4,11 +4,9 @@ namespace Tests\Infrastructure\Persistence\Doctrine\Repository\Cart;
 
 use App\Domain\Enum\CartStatus;
 use App\Domain\Model\Cart;
-use App\Domain\Repository\Cart\GetCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineCreateCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineGetCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineUpdateCartStatusRepository;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

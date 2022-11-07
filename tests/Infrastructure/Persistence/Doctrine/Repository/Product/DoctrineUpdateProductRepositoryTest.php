@@ -6,7 +6,6 @@ use App\Domain\Model\Product;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineCreateProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineGetProductRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineUpdateProductRepository;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

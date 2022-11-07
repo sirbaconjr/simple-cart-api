@@ -4,11 +4,7 @@ namespace Tests\Presentation\Http\Controller\User;
 
 use App\Domain\Enum\UserType;
 use App\Domain\Model\User;
-use App\Presentation\Http\Controller\User\PostUserController;
 use Doctrine\ORM\EntityManager;
-use PHPUnit\Framework\TestCase;
-use Selective\TestTrait\Traits\HttpJsonTestTrait;
-use Selective\TestTrait\Traits\HttpTestTrait;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;

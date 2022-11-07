@@ -11,7 +11,6 @@ use App\Domain\Model\CartItem;
 use App\Domain\Model\Product;
 use App\Domain\Repository\CartItem\CreateCartItemRepository;
 use App\Domain\Repository\Product\GetProductRepository;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

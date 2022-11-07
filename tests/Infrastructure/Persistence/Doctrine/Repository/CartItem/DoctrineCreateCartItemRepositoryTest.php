@@ -10,8 +10,6 @@ use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineCreateCartRe
 use App\Infrastructure\Persistence\Doctrine\Repository\Cart\DoctrineGetCartRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\CartItem\DoctrineCreateCartItemRepository;
 use App\Infrastructure\Persistence\Doctrine\Repository\Product\DoctrineCreateProductRepository;
-use Doctrine\ORM\EntityManager;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

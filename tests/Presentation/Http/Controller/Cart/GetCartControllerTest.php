@@ -4,8 +4,6 @@ namespace Tests\Presentation\Http\Controller\Cart;
 
 use App\Domain\Enum\CartStatus;
 use App\Domain\Repository\Cart\GetCartRepository;
-use Selective\TestTrait\Traits\HttpJsonTestTrait;
-use Selective\TestTrait\Traits\HttpTestTrait;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 

@@ -10,13 +10,11 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Selective\TestTrait\Traits\ContainerTestTrait;
 use Selective\TestTrait\Traits\HttpJsonTestTrait;
 use Selective\TestTrait\Traits\HttpTestTrait;
 use Slim\App;
-use Symfony\Component\Uid\UuidV4;
 
 class AppTestCase extends TestCase
 {

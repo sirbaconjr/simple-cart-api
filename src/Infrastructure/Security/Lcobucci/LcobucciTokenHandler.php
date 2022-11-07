@@ -3,8 +3,8 @@
 namespace App\Infrastructure\Security\Lcobucci;
 
 use App\Domain\Exception\InvalidToken;
-use App\Domain\Security\TokenHandler;
 use App\Domain\Model\User;
+use App\Domain\Security\TokenHandler;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 

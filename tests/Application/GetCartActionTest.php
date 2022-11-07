@@ -5,7 +5,6 @@ namespace Tests\Application;
 use App\Application\GetCartAction;
 use App\Domain\Enum\CartStatus;
 use App\Domain\Enum\SessionKey;
-use App\Domain\Exception\ProductNotFound;
 use App\Domain\Model\Cart;
 use App\Domain\Repository\Cart\CreateCartRepository;
 use App\Domain\Repository\Cart\GetCartRepository;

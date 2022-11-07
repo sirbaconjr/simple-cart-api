@@ -3,8 +3,8 @@
 namespace App\Infrastructure\Persistence\Doctrine\Repository\User;
 
 use App\Domain\Exception\UserWithEmailNotFound;
-use App\Domain\Repository\User\GetUserByEmailRepository;
 use App\Domain\Model\User;
+use App\Domain\Repository\User\GetUserByEmailRepository;
 use Doctrine\ORM\EntityManager;
 
 class DoctrineGetUserByEmailRepository implements GetUserByEmailRepository

@@ -7,8 +7,6 @@ use App\Domain\Exception\ProductNotFound;
 use App\Domain\Model\Product;
 use App\Domain\Repository\Product\CreateProductRepository;
 use App\Domain\Repository\Product\GetProductRepository;
-use Selective\TestTrait\Traits\HttpJsonTestTrait;
-use Selective\TestTrait\Traits\HttpTestTrait;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 
