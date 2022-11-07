@@ -18,7 +18,8 @@ class PatchCartResponse extends Response
     {
         return [
             'id' => $this->cart->id,
-            'status' => $this->cart->status->value
+            'status' => $this->cart->status->value,
+            'total' => $this->cart->total()
         ];
     }
 }

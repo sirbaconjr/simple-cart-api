@@ -38,6 +38,7 @@ class PostCartControllerTest extends AppTestCase
         $response = $this->executeRequestAndParseResponse($request);
 
         self::assertEquals($payload['items'], $response['data']['items']);
+        self::assertEquals(42.78, $response['data']['total']);
         self::assertEquals([], $response['errors']);
 
         $freshCart = $this->getService(GetCartRepository::class)->getCart($cart->id);
@@ -152,6 +153,8 @@ class PostCartControllerTest extends AppTestCase
         $request = $this->createJsonRequest('POST', '/api/cart', $payload);
 
         $response = $this->executeRequestAndParseResponse($request);
+
+        self::assertEquals(42.78, $response['data']['total']);
 
         self::assertEquals(
             [

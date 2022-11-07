@@ -17,4 +17,15 @@ class Cart
         public iterable $items,
         public CartStatus $status
     ) {}
+
+    public function total(): float
+    {
+        $total = 0;
+
+        foreach ($this->items as $item) {
+            $total += $item->amount * $item->product->price;
+        }
+
+        return $total;
+    }
 }

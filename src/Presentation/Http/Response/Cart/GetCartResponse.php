@@ -19,7 +19,8 @@ class GetCartResponse extends Response
         return [
             'id' => $this->cart->id,
             'items' => $this->cart->items,
-            'status' => $this->cart->status->value
+            'status' => $this->cart->status->value,
+            'total' => $this->cart->total()
         ];
     }
 }

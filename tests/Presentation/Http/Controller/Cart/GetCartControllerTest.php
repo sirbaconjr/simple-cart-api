@@ -36,6 +36,11 @@ class GetCartControllerTest extends AppTestCase
             $response['data']['status']
         );
 
+        self::assertEquals(
+            0,
+            $response['data']['total']
+        );
+
         $cart = $this->getService(GetCartRepository::class)
             ->getCart(UuidV4::fromString($response['data']['id']));
 
