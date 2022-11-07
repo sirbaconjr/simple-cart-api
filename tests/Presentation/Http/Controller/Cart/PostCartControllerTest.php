@@ -15,9 +15,6 @@ use Tests\AppTestCase;
 
 class PostCartControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
     public function testItAddProductToCart()
     {
         $cart = $this->getService(GetCartAction::class)();

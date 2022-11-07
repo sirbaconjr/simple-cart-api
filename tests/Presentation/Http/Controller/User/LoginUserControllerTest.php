@@ -14,9 +14,6 @@ use Tests\AppTestCase;
 
 class LoginUserControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
     public function testItLoginUser(): void
     {
         $plainPassword = '12345678';

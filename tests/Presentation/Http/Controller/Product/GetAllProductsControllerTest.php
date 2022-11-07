@@ -11,9 +11,6 @@ use Tests\AppTestCase;
 
 class GetAllProductsControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
     public function testItGetsAllProducts()
     {
         $product = new Product(UuidV4::v4(), 'name', 'description', 42.78);

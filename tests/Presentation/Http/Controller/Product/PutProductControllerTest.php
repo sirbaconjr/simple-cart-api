@@ -2,6 +2,7 @@
 
 namespace Tests\Presentation\Http\Controller\Product;
 
+use App\Domain\Enum\UserType;
 use App\Domain\Model\Product;
 use App\Domain\Repository\Product\CreateProductRepository;
 use App\Domain\Repository\Product\GetProductRepository;
@@ -13,18 +14,17 @@ use Tests\AppTestCase;
 
 class PutProductControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
-    public function testItCreatesAProduct(): void
+    public function testItUpdatesAProduct(): void
     {
+        $this->getUser(UserType::Manager);
+
         $product = new Product(UuidV4::v4(), 'name', 'description', 42.78);
         $this->getService(CreateProductRepository::class)->createProduct($product);
         $anotherName = 'another name';
         $anotherDescription = 'another description';
         $anotherPrice = 78.42;
 
-        $request = $this->createJsonRequest('PUT', "/api/products/{$product->id->jsonSerialize()}", [
+        $request = $this->createJsonAuthenticatedRequest('PUT', "/api/products/{$product->id->jsonSerialize()}", [
             'name' => $anotherName,
             'description' => $anotherDescription,
             'price' => $anotherPrice
@@ -49,8 +49,10 @@ class PutProductControllerTest extends AppTestCase
      */
     public function testItValidatesRequest(array $payload, array $expected): void
     {
+        $this->getUser(UserType::Manager);
+
         $id = UuidV4::v4();
-        $request = $this->createJsonRequest('PUT', "/api/products/{$id->jsonSerialize()}", $payload);
+        $request = $this->createJsonAuthenticatedRequest('PUT', "/api/products/{$id->jsonSerialize()}", $payload);
 
         $response = $this->executeRequestAndParseResponse($request);
 

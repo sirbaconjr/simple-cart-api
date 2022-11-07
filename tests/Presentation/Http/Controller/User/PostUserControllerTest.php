@@ -15,9 +15,6 @@ use Tests\AppTestCase;
 
 class PostUserControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
     public function testItCreatesAUser(): void
     {
         $email = 'user@company.com';

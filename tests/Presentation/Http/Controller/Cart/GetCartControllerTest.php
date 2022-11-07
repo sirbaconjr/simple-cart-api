@@ -11,9 +11,6 @@ use Tests\AppTestCase;
 
 class GetCartControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
     public function testItGetsCartFromSession()
     {
         $request = $this->createJsonRequest('GET', '/api/cart');

@@ -2,6 +2,7 @@
 
 namespace Tests\Presentation\Http\Controller\Product;
 
+use App\Domain\Enum\UserType;
 use App\Domain\Model\Product;
 use App\Domain\Repository\Product\GetProductRepository;
 use Selective\TestTrait\Traits\HttpJsonTestTrait;
@@ -11,16 +12,15 @@ use Tests\AppTestCase;
 
 class PostProductControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
     public function testItCreatesAProduct(): void
     {
+        $this->getUser(UserType::Manager);
+
         $name = 'name';
         $description = 'description';
         $price = 42.78;
 
-        $request = $this->createJsonRequest('POST', '/api/products', [
+        $request = $this->createJsonAuthenticatedRequest('POST', '/api/products', [
             'name' => $name,
             'description' => $description,
             'price' => $price
@@ -50,7 +50,9 @@ class PostProductControllerTest extends AppTestCase
      */
     public function testItValidatesRequest(array $payload, array $expected): void
     {
-        $request = $this->createJsonRequest('POST', '/api/products', $payload);
+        $this->getUser(UserType::Manager);
+
+        $request = $this->createJsonAuthenticatedRequest('POST', '/api/products', $payload);
 
         $response = $this->executeRequestAndParseResponse($request);
 

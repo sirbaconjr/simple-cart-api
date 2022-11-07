@@ -9,10 +9,11 @@ use App\Domain\Repository\User\GetUserByIdRepository;
 use App\Domain\Security\TokenHandler;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
 
-class UserOfTypeAuthenticatedMiddleware
+class UserOfTypeAuthenticatedMiddleware implements MiddlewareInterface
 {
     /**
      * @param TokenHandler $tokenHandler
@@ -25,7 +26,7 @@ class UserOfTypeAuthenticatedMiddleware
         private readonly array $types
     ) {}
 
-    public function __invoke(RequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(RequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $authorization = $request->getHeader('Authorization');
 

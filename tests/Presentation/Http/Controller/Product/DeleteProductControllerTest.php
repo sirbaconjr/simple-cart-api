@@ -2,6 +2,7 @@
 
 namespace Tests\Presentation\Http\Controller\Product;
 
+use App\Domain\Enum\UserType;
 use App\Domain\Exception\ProductNotFound;
 use App\Domain\Model\Product;
 use App\Domain\Repository\Product\CreateProductRepository;
@@ -13,15 +14,14 @@ use Tests\AppTestCase;
 
 class DeleteProductControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
     public function testItDeletesAProduct()
     {
+        $this->getUser(UserType::Manager);
+
         $product = new Product(UuidV4::v4(), 'name', 'description', 42.78);
         $this->getService(CreateProductRepository::class)->createProduct($product);
 
-        $request = $this->createJsonRequest('DELETE', "/api/products/{$product->id->jsonSerialize()}");
+        $request = $this->createJsonAuthenticatedRequest('DELETE', "/api/products/{$product->id->jsonSerialize()}");
         $response = $this->executeRequestAndParseResponse($request);
 
         $this->assertEquals(
@@ -40,9 +40,11 @@ class DeleteProductControllerTest extends AppTestCase
 
     public function testItThrowsProductNotFoundWhenProductDoesNotExist()
     {
+        $this->getUser(UserType::Manager);
+
         $product = new Product(UuidV4::v4(), 'name', 'description', 42.78);
 
-        $request = $this->createJsonRequest('DELETE', "/api/products/{$product->id->jsonSerialize()}");
+        $request = $this->createJsonAuthenticatedRequest('DELETE', "/api/products/{$product->id->jsonSerialize()}");
         $response = $this->app->handle($request);
 
         self::assertEquals(

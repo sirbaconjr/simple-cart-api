@@ -42,7 +42,7 @@ class UserOfTypeAuthenticatedMiddlewareTest extends AppTestCase
             ->expects($this->never())
             ->method('handle');
 
-        $response = ($this->middleware)($request, $requestHandler);
+        $response = $this->middleware->process($request, $requestHandler);
 
         self::assertEquals(401, $response->getStatusCode());
     }
@@ -60,7 +60,7 @@ class UserOfTypeAuthenticatedMiddlewareTest extends AppTestCase
             ->expects($this->never())
             ->method('handle');
 
-        $response = ($this->middleware)($request, $requestHandler);
+        $response = $this->middleware->process($request, $requestHandler);
 
         self::assertEquals(401, $response->getStatusCode());
     }
@@ -80,7 +80,7 @@ class UserOfTypeAuthenticatedMiddlewareTest extends AppTestCase
             ->expects($this->never())
             ->method('handle');
 
-        $response = ($this->middleware)($request, $requestHandler);
+        $response = $this->middleware->process($request, $requestHandler);
 
         self::assertEquals(401, $response->getStatusCode());
     }
@@ -110,7 +110,7 @@ class UserOfTypeAuthenticatedMiddlewareTest extends AppTestCase
             ->expects($this->never())
             ->method('handle');
 
-        $response = ($this->middleware)($request, $requestHandler);
+        $response = $this->middleware->process($request, $requestHandler);
 
         self::assertEquals(403, $response->getStatusCode());
     }
@@ -167,7 +167,7 @@ class UserOfTypeAuthenticatedMiddlewareTest extends AppTestCase
                 }
             ));
 
-        ($this->middleware)($request, $requestHandler);
+        $this->middleware->process($request, $requestHandler);
     }
 
     public function validUserOfTypeProvider(): array

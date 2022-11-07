@@ -9,16 +9,11 @@ use App\Domain\Model\Product;
 use App\Domain\Repository\Cart\GetCartRepository;
 use App\Domain\Repository\Cart\UpdateCartStatusRepository;
 use App\Domain\Repository\Product\CreateProductRepository;
-use Selective\TestTrait\Traits\HttpJsonTestTrait;
-use Selective\TestTrait\Traits\HttpTestTrait;
 use Symfony\Component\Uid\UuidV4;
 use Tests\AppTestCase;
 
 class PatchCartControllerTest extends AppTestCase
 {
-    use HttpTestTrait;
-    use HttpJsonTestTrait;
-
     public function testItUpdatesCartStatusToBought()
     {
         $product = new Product(UuidV4::v4(), 'name', 'description', 42.78);
@@ -28,7 +23,7 @@ class PatchCartControllerTest extends AppTestCase
 
         ($this->getService(AddProductToCartAction::class))($cart, $product->id, 1);
 
-        $request = $this->createJsonRequest('PATCH', '/api/cart', [
+        $request = $this->createJsonAuthenticatedRequest('PATCH', '/api/cart', [
             'status' => CartStatus::Bought->value
         ]);
 
@@ -51,7 +46,7 @@ class PatchCartControllerTest extends AppTestCase
     public function testItValidatesCantCheckoutEmptyCart()
     {
         $cart = $this->getService(GetCartAction::class)();
-        $request = $this->createJsonRequest('PATCH', '/api/cart', [
+        $request = $this->createJsonAuthenticatedRequest('PATCH', '/api/cart', [
             'status' => CartStatus::Bought->value
         ]);
 
@@ -89,7 +84,7 @@ class PatchCartControllerTest extends AppTestCase
         $freshCart->status = CartStatus::Bought;
         $this->getService(UpdateCartStatusRepository::class)->update($freshCart);
 
-        $request = $this->createJsonRequest('PATCH', '/api/cart', [
+        $request = $this->createJsonAuthenticatedRequest('PATCH', '/api/cart', [
             'status' => CartStatus::Bought->value
         ]);
 
@@ -122,7 +117,7 @@ class PatchCartControllerTest extends AppTestCase
      */
     public function testItThrowsExceptionWhenTryingToPatchWithInvalidStatus(string $status): void
     {
-        $request = $this->createJsonRequest('PATCH', '/api/cart', [
+        $request = $this->createJsonAuthenticatedRequest('PATCH', '/api/cart', [
             'status' => $status
         ]);
 
